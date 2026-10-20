@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+  /* ... (Todo tu CSS original va aquí, exactamente igual) ... */
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   :root {
     --bg: #000000; --green: #00e676; --green-bright: #00ff88;
@@ -19,67 +20,37 @@
     --font-body: 'Inter', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
   }
-  
   html, body { height: 100%; }
   body {
     background: var(--bg); color: var(--text);
     font-family: var(--font-body); min-height: 100vh;
     display: flex; overflow-x: hidden; -webkit-font-smoothing: antialiased;
   }
-
-  body::before {
-    content: ''; position: fixed; inset: 0;
-    background: radial-gradient(circle at 50% -10%, rgba(0, 230, 118, 0.13), transparent 55%),
-                radial-gradient(circle at 50% 110%, rgba(0, 230, 118, 0.07), transparent 60%);
-    pointer-events: none; z-index: 0;
-  }
-  body::after {
-    content: ''; position: fixed; inset: 0;
-    background-image: linear-gradient(rgba(0, 230, 118, 0.035) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(0, 230, 118, 0.035) 1px, transparent 1px);
-    background-size: 64px 64px;
-    -webkit-mask-image: radial-gradient(circle at 50% 40%, #000 0%, transparent 78%);
-    mask-image: radial-gradient(circle at 50% 40%, #000 0%, transparent 78%);
-    pointer-events: none; z-index: 0;
-  }
-
+  body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(circle at 50% -10%, rgba(0, 230, 118, 0.13), transparent 55%), radial-gradient(circle at 50% 110%, rgba(0, 230, 118, 0.07), transparent 60%); pointer-events: none; z-index: 0; }
+  body::after { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(0, 230, 118, 0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 230, 118, 0.035) 1px, transparent 1px); background-size: 64px 64px; -webkit-mask-image: radial-gradient(circle at 50% 40%, #000 0%, transparent 78%); mask-image: radial-gradient(circle at 50% 40%, #000 0%, transparent 78%); pointer-events: none; z-index: 0; }
   * { scrollbar-width: thin; scrollbar-color: rgba(0, 230, 118, 0.55) rgba(0, 230, 118, 0.04); }
   ::-webkit-scrollbar { width: 9px; height: 9px; }
   ::-webkit-scrollbar-track { background: rgba(0, 230, 118, 0.04); border-left: 1px solid rgba(0, 230, 118, 0.08); }
   ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, rgba(0, 230, 118, 0.7), rgba(0, 230, 118, 0.35)); border-radius: 6px; border: 2px solid #000; }
-
   .app-container { display: flex; width: 100%; height: 100vh; overflow: hidden; position: relative; z-index: 2; }
-
-  .sidebar {
-    width: 260px; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(10px);
-    border-right: 1px solid var(--green-line); padding: 2rem 0;
-    display: flex; flex-direction: column; z-index: 10; flex-shrink: 0;
-  }
+  .sidebar { width: 260px; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(10px); border-right: 1px solid var(--green-line); padding: 2rem 0; display: flex; flex-direction: column; z-index: 10; flex-shrink: 0; }
   .sidebar-brand { padding: 0 1.5rem 2rem; font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: #fff; text-shadow: 0 0 15px rgba(0, 230, 118, 0.4); }
   .sidebar-nav { display: flex; flex-direction: column; gap: 0.2rem; overflow-y: auto; }
-  .nav-item {
-    padding: 0.8rem 1.5rem; color: var(--muted); text-decoration: none; font-size: 0.85rem; font-weight: 500;
-    display: flex; align-items: center; gap: 0.75rem; transition: 0.3s; border-left: 2px solid transparent;
-    cursor: pointer; background: none; border-top: none; border-right: none; border-bottom: none; font-family: var(--font-body); text-align: left;
-  }
+  .nav-item { padding: 0.8rem 1.5rem; color: var(--muted); text-decoration: none; font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; gap: 0.75rem; transition: 0.3s; border-left: 2px solid transparent; cursor: pointer; background: none; border-top: none; border-right: none; border-bottom: none; font-family: var(--font-body); text-align: left; }
   .nav-item svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
   .nav-item:hover, .nav-item.active { color: var(--green); background: var(--green-soft); border-left-color: var(--green); }
-
   .main-wrapper { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
   .topbar { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; border-bottom: 1px solid var(--green-line); background: rgba(0,0,0,0.4); backdrop-filter: blur(10px); z-index: 5; }
   .search-bar { background: rgba(255,255,255,0.03); border: 1px solid var(--green-line); padding: 0.6rem 1rem; border-radius: 4px; color: #fff; font-family: var(--font-body); width: 300px; outline: none; }
   .user-account { display: flex; align-items: center; gap: 0.75rem; font-family: var(--font-display); font-size: 0.85rem; font-weight: 600; }
   .user-icon { width: 32px; height: 32px; border-radius: 50%; background: var(--green-soft); border: 1px solid var(--green-line); display: flex; align-items: center; justify-content: center; color: var(--green); }
-
   .view-container { flex: 1; overflow-y: auto; padding: 2rem; scroll-behavior: smooth; }
   .view-section { display: none; max-width: 1100px; margin: 0 auto; animation: fadeIn 0.4s ease; }
   .view-section.active { display: block; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
   .eyebrow { font-family: var(--font-display); font-size: 0.68rem; letter-spacing: 0.28em; text-transform: lowercase; color: var(--green); margin-bottom: 0.5rem; font-weight: 600; }
   .page-title { font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem; line-height: 1.1; }
   .lead { font-size: 1rem; font-weight: 300; line-height: 1.7; color: var(--muted); margin-bottom: 2rem; }
-  
   h3.section-title { font-family: var(--font-display); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.2em; text-transform: lowercase; color: var(--green); margin: 2.5rem 0 1rem; border-bottom: 1px solid var(--green-line); padding-bottom: 0.5rem; }
   p { font-size: 0.95rem; line-height: 1.8; color: var(--muted); margin-bottom: 1.2rem; }
   p strong { color: #fff; }
@@ -88,15 +59,12 @@
   li { position: relative; padding-left: 1.5rem; margin-bottom: 0.6rem; font-size: 0.92rem; line-height: 1.7; color: var(--muted); }
   li::before { content: '▸'; position: absolute; left: 0; color: var(--green); }
   li strong { color: #fff; }
-  
   pre { background: #060a08; border: 1px solid var(--green-line); border-left: 2px solid var(--green); padding: 1.2rem; overflow-x: auto; font-size: 0.82rem; line-height: 1.7; color: #cfe6d6; border-radius: 4px; margin: 1rem 0 1.5rem; }
   pre code { background: none; padding: 0; color: inherit; }
-
   .btn { font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: lowercase; padding: 0.9rem 1.8rem; background: transparent; color: #fff; border: 1px solid var(--green-line); cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; border-radius: 4px; }
   .btn:hover { border-color: var(--green); box-shadow: 0 0 15px rgba(0, 230, 118, 0.2); }
   .btn.primary { background: var(--green); color: #001b0d; border-color: var(--green); }
   .btn.primary:hover { background: var(--green-bright); box-shadow: 0 0 20px rgba(0, 255, 136, 0.4); }
-
   .script-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
   .card { padding: 0; border: 1px solid var(--green-line); background: linear-gradient(180deg, var(--green-soft), transparent 70%); transition: 0.3s; display: flex; flex-direction: column; overflow: hidden; border-radius: 6px; cursor: pointer; }
   .card:hover { border-color: var(--green); transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0, 230, 118, 0.1); }
@@ -108,7 +76,6 @@
   .card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(0, 230, 118, 0.1); padding-top: 0.8rem; }
   .uploader { display: flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; color: var(--muted); font-weight: 500; }
   .verified-badge { width: 14px; height: 14px; }
-
   .detail-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.5rem; }
   @media (max-width: 900px) { .detail-layout { grid-template-columns: 1fr; } }
   .detail-image-wrapper { border: 1px solid var(--green-line); border-radius: 6px; overflow: hidden; background: #000; position: relative; }
@@ -127,7 +94,6 @@
   .detail-desc-title { font-family: var(--font-display); font-size: 1.2rem; color: #fff; margin: 3rem 0 1rem; border-bottom: 1px solid var(--green-line); padding-bottom: 0.5rem; }
   .detail-desc-text { font-size: 1rem; line-height: 1.8; color: var(--muted); }
   .creator-note { background: rgba(0, 230, 118, 0.05); border-left: 2px solid var(--green); padding: 0.8rem; font-size: 0.85rem; color: rgba(255,255,255,0.7); font-style: italic; margin-bottom: 1rem; border-radius: 0 4px 4px 0; }
-
   .privacy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
   .privacy-box { padding: 1.2rem; border: 1px solid var(--green-line); background: rgba(0,0,0,0.4); border-radius: 4px; }
   .privacy-box h3 { font-family: var(--font-display); font-size: 0.85rem; color: var(--green); margin-bottom: 0.8rem; text-transform: uppercase; }
@@ -138,7 +104,6 @@
   .tag { font-family: var(--font-mono); font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 3px; display: inline-flex; align-items: center; gap: 0.3rem; }
   .tag-feature { background: var(--green); color: #001b0d; }
   .entry-title { font-family: var(--font-display); font-size: 0.95rem; font-weight: 600; color: #fff; }
-
   @media (max-width: 900px) {
     .app-container { flex-direction: column; }
     .sidebar { width: 100%; height: auto; padding: 1rem; border-right: none; border-bottom: 1px solid var(--green-line); }
@@ -153,38 +118,36 @@
 </style>
 </head>
 <body>
-
 <div class="app-container">
   <aside class="sidebar">
     <div class="sidebar-brand">Happy Hub</div>
     <div class="sidebar-nav">
-      <button class="nav-item active" data-target="home" onclick="navigate('home')">
+      <button class="nav-item active" data-target="home" onclick="window.navigate('home')">
         <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         <span data-i18n="nav_home">Home</span>
       </button>
-      <button class="nav-item" data-target="catalog" onclick="navigate('catalog')">
+      <button class="nav-item" data-target="catalog" onclick="window.navigate('catalog')">
         <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
         <span data-i18n="nav_scripts">Official Scripts</span>
       </button>
-      <button class="nav-item" data-target="features" onclick="navigate('features')">
+      <button class="nav-item" data-target="features" onclick="window.navigate('features')">
         <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         <span data-i18n="nav_features">Features</span>
       </button>
-      <button class="nav-item" data-target="whatsnew" onclick="navigate('whatsnew')">
+      <button class="nav-item" data-target="whatsnew" onclick="window.navigate('whatsnew')">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         <span data-i18n="nav_whatsnew">What's New</span>
       </button>
-      <button class="nav-item" data-target="api" onclick="navigate('api')">
+      <button class="nav-item" data-target="api" onclick="window.navigate('api')">
         <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
         <span data-i18n="nav_api">API Reference</span>
       </button>
-      <button class="nav-item" data-target="donate" onclick="navigate('donate')">
+      <button class="nav-item" data-target="donate" onclick="window.navigate('donate')">
         <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
         <span data-i18n="nav_donate">Donate</span>
       </button>
     </div>
   </aside>
-
   <main class="main-wrapper">
     <header class="topbar">
       <input type="text" class="search-bar" placeholder="Search current page..." data-i18n-placeholder="search_placeholder" id="searchInput">
@@ -193,46 +156,38 @@
         <span data-i18n="user_name">User</span>
       </div>
     </header>
-
     <div class="view-container" id="viewContainer">
-      
       <section class="view-section active" id="view-home">
         <p class="eyebrow" data-i18n="home_eyebrow">private dashboard</p>
         <h1 class="page-title" data-i18n="home_title">Welcome back, User</h1>
         <p class="lead" data-i18n="home_desc">This is your private dashboard. Access official scripts, API documentation, and the latest updates.</p>
         <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-          <button class="btn primary" onclick="navigate('catalog')" data-i18n="home_btn_scripts">explore scripts</button>
-          <button class="btn" onclick="navigate('api')" data-i18n="home_btn_api">read api docs</button>
+          <button class="btn primary" onclick="window.navigate('catalog')" data-i18n="home_btn_scripts">explore scripts</button>
+          <button class="btn" onclick="window.navigate('api')" data-i18n="home_btn_api">read api docs</button>
         </div>
       </section>
-
       <section class="view-section" id="view-catalog">
         <p class="eyebrow" data-i18n="catalog_eyebrow">official releases</p>
         <h1 class="page-title" data-i18n="catalog_title">Happy Hub Scripts</h1>
         <p class="lead" data-i18n="catalog_desc">Only scripts maintained and verified by the Happy Hub team.</p>
-        
         <div class="script-grid" id="scriptGrid">
           <p style="color: var(--green);" id="loadingText">Fetching DataStorage.lua...</p>
         </div>
-        
         <div style="margin-top: 4rem; border-top: 1px solid var(--green-line); padding-top: 2rem;">
           <p class="eyebrow" data-i18n="policies_eyebrow">policies</p>
           <h2 class="page-title" style="font-size: 1.5rem; margin-bottom: 1.5rem;" data-i18n="privacy_title">Privacy & Terms</h2>
           <div class="privacy-grid" id="privacyGrid"></div>
         </div>
       </section>
-
       <section class="view-section" id="view-detail">
-        <button class="btn-back" onclick="navigate('catalog')">
+        <button class="btn-back" onclick="window.navigate('catalog')">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
           <span data-i18n="back_btn">Back to Scripts</span>
         </button>
-        
         <div class="detail-layout">
           <div class="detail-image-wrapper">
             <img id="detailImg" src="" alt="Script Preview">
           </div>
-          
           <div class="detail-info">
             <div class="detail-game" id="detailGame">
                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4m-2-2v4m8-2h.01M18 10h.01"/></svg>
@@ -240,9 +195,8 @@
             </div>
             <h1 class="detail-title" id="detailTitle">Script Title</h1>
             <div class="detail-author" id="detailAuthor">by Uploader</div>
-            
             <div class="detail-actions">
-              <button class="btn-copy" onclick="copyScript()" id="copyBtn">
+              <button class="btn-copy" onclick="window.copyScript()" id="copyBtn">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                 <span data-i18n="copy_btn">Copy Script</span>
               </button>
@@ -251,20 +205,16 @@
                 <span data-i18n="play_btn">Play</span>
               </a>
             </div>
-            
             <div class="creator-note" id="detailNote" style="display: none;"></div>
           </div>
         </div>
-
         <h3 class="detail-desc-title" data-i18n="desc_title">Description</h3>
         <p class="detail-desc-text" id="detailDesc">Script description goes here.</p>
       </section>
-
       <section class="view-section" id="view-features">
         <p class="eyebrow" data-i18n="features_eyebrow">capabilities</p>
         <h1 class="page-title" data-i18n="features_title">Features</h1>
         <p class="lead" data-i18n="features_desc">What you get out of the box with Happy Hub.</p>
-        
         <h3 class="section-title" data-i18n="feat_h1">UI & Themes</h3>
         <ul>
           <li data-i18n-html="feat_l1"><strong>10 built-in themes</strong> including the new <strong>Dark</strong> default.</li>
@@ -278,12 +228,10 @@
           <li data-i18n-html="feat_l6"><strong>Customizable storage folder, subfolder and extension.</strong></li>
         </ul>
       </section>
-
       <section class="view-section" id="view-whatsnew">
         <p class="eyebrow" data-i18n="wn_eyebrow">changelog</p>
         <h1 class="page-title" data-i18n="wn_title">What's New</h1>
         <p class="lead" data-i18n="wn_desc">Latest updates and patches.</p>
-        
         <div class="entry">
           <div class="entry-head">
             <span class="tag tag-feature"><svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z"/></svg> <span data-i18n="tag_feature">feature</span></span>
@@ -292,12 +240,10 @@
           <p data-i18n="wn_e1_desc">A single table that controls game compatibility and the key system.</p>
         </div>
       </section>
-
       <section class="view-section" id="view-api">
         <p class="eyebrow" data-i18n="api_eyebrow">documentation</p>
         <h1 class="page-title" data-i18n="api_title">API Reference</h1>
         <p class="lead" data-i18n="api_desc">Everything you can build with the Happy Hub library.</p>
-        
         <h3 class="section-title">Global Configuration</h3>
         <p>A single table, <code>API.Config</code>, that controls game compatibility and the key system.</p>
         <div class="method">
@@ -309,7 +255,6 @@
             <li><code>ExpectedKey</code> — exact key the user must paste to unlock the hub.</li>
           </ul>
         </div>
-
         <h3 class="section-title">Root API</h3>
         <div class="method">
           <span class="method-name">API:CreateWindow(title, subtitle)</span>
@@ -327,7 +272,6 @@
           <span class="method-name">API:GetControl(name) · API:GetControlsByName(name)</span>
           <p>Look up registered controls by name.</p>
         </div>
-
         <h3 class="section-title">Window Methods</h3>
         <div class="method">
           <span class="method-name">window:CreateTab(name, iconId)</span>
@@ -361,7 +305,6 @@
           <span class="method-name">window:CreateDropdown(tab, text, options, default, callback, tooltip)</span>
           <p>Single-select dropdown. The list always opens downward.</p>
         </div>
-
         <h3 class="section-title">Config System</h3>
         <div class="method">
           <span class="method-name">window:SetConfigSnapshot(fn) · SetConfigApply(fn)</span>
@@ -371,25 +314,21 @@
           <span class="method-name">window:BuildConfigPage()</span>
           <p>Creates a built-in Settings tab with theme dropdown, storage path TextBoxes, config save/load/delete/refresh buttons, reset-to-defaults, and a Delete UI button.</p>
         </div>
-
         <h3 class="section-title">Mobile Helpers</h3>
         <div class="method">
           <span class="method-name">window:AddMobileButton(config) · ClearMobileButtons()</span>
           <p>Adds floating buttons that only appear on mobile (max 3).</p>
         </div>
-
         <h3 class="section-title">Visibility & Teardown</h3>
         <div class="method">
           <span class="method-name">window:HideUI() · ShowUI() · ToggleUI() · Destroy()</span>
           <p>Control whether the hub is visible. <code>Destroy</code> disconnects every tracked connection and removes the ScreenGui.</p>
         </div>
       </section>
-
       <section class="view-section" id="view-donate">
         <p class="eyebrow" data-i18n="donate_eyebrow">support</p>
         <h1 class="page-title" data-i18n="donate_title">Donate</h1>
         <p class="lead" data-i18n="donate_desc">Optional. Everything here stays free either way.</p>
-        
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
           <div class="card" style="padding: 1.5rem; text-align: center;">
             <div style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--green); margin-bottom: 0.5rem;">3 R$</div>
@@ -401,245 +340,10 @@
           </div>
         </div>
       </section>
-
     </div>
   </main>
 </div>
 
-<script>
-  const translations = {
-    en: {
-      nav_home: "Home", nav_scripts: "Official Scripts", nav_features: "Features", nav_whatsnew: "What's New", nav_api: "API Reference", nav_donate: "Donate",
-      user_name: "User", search_placeholder: "Search current page...",
-      
-      home_eyebrow: "private dashboard", home_title: "Welcome back, User",
-      home_desc: "This is your private dashboard. Access official scripts, API documentation, and the latest updates.",
-      home_btn_scripts: "explore scripts", home_btn_api: "read api docs",
-      
-      catalog_eyebrow: "official releases", catalog_title: "Happy Hub Scripts",
-      catalog_desc: "Only scripts maintained and verified by the Happy Hub team.",
-      policies_eyebrow: "policies", privacy_title: "Privacy & Terms",
-      
-      back_btn: "Back to Scripts", copy_btn: "Copy Script", copied_btn: "Copied!", play_btn: "Play", desc_title: "Description",
-      
-      privacy_hide: "What We Hide", privacy_allowed: "What You Can Do", privacy_denied: "What You Cannot Do",
-      
-      features_eyebrow: "capabilities", features_title: "Features", features_desc: "What you get out of the box.",
-      feat_h1: "UI & Themes", feat_l1: "<strong>10 built-in themes</strong> including the new <strong>Dark</strong> default.",
-      feat_l2: "<strong>Pill toggles with check/X icons</strong> inside the knob.", feat_l3: "<strong>Image cards</strong> with title, subtitle, and description.",
-      feat_h2: "Configs & Storage", feat_l4: "<strong>Per-game config files</strong> keyed by PlaceId.",
-      feat_l5: "<strong>Save, load, delete, and reset to defaults.</strong>", feat_l6: "<strong>Customizable storage folder, subfolder and extension.</strong>",
-      
-      wn_eyebrow: "changelog", wn_title: "What's New", wn_desc: "Latest updates and patches.",
-      tag_feature: "feature", wn_e1_title: "API.Config — global configuration table", wn_e1_desc: "A single table that controls game compatibility and the key system.",
-      
-      api_eyebrow: "documentation", api_title: "API Reference", api_desc: "Everything you can build with the Happy Hub library.",
-      
-      donate_eyebrow: "support", donate_title: "Donate", donate_desc: "Optional. Everything here stays free either way.", donate_btn: "Donate"
-    },
-    es: {
-      nav_home: "Inicio", nav_scripts: "Scripts Oficiales", nav_features: "Funciones", nav_whatsnew: "Novedades", nav_api: "Referencia API", nav_donate: "Donar",
-      user_name: "User", search_placeholder: "Buscar en esta página...",
-      
-      home_eyebrow: "panel privado", home_title: "Bienvenido de nuevo, User",
-      home_desc: "Este es tu panel privado. Accede a scripts oficiales, documentación de la API y las últimas actualizaciones.",
-      home_btn_scripts: "explorar scripts", home_btn_api: "leer docs api",
-      
-      catalog_eyebrow: "lanzamientos oficiales", catalog_title: "Scripts de Happy Hub",
-      catalog_desc: "Solo scripts mantenidos y verificados por el equipo de Happy Hub.",
-      policies_eyebrow: "políticas", privacy_title: "Privacidad y Términos",
-      
-      back_btn: "Volver a Scripts", copy_btn: "Copy Script", copied_btn: "¡Copiado!", play_btn: "Jugar", desc_title: "Descripción",
-      
-      privacy_hide: "Lo que ocultamos", privacy_allowed: "Lo que puedes hacer", privacy_denied: "Lo que no puedes hacer",
-      
-      features_eyebrow: "capacidades", features_title: "Funciones", features_desc: "Lo que obtienes out of the box.",
-      feat_h1: "UI y Temas", feat_l1: "<strong>10 temas integrados</strong> incluyendo el nuevo <strong>Dark</strong> por defecto.",
-      feat_l2: "<strong>Toggles pill con iconos check/X</strong> dentro del knob.", feat_l3: "<strong>Image cards</strong> con título, subtítulo y descripción.",
-      feat_h2: "Configs y Almacenamiento", feat_l4: "<strong>Archivos de config por juego</strong> usando PlaceId.",
-      feat_l5: "<strong>Guardar, cargar, eliminar y resetear a defaults.</strong>", feat_l6: "<strong>Carpeta raíz, subcarpeta y extensión configurables.</strong>",
-      
-      wn_eyebrow: "changelog", wn_title: "Novedades", wn_desc: "Últimas actualizaciones y parches.",
-      tag_feature: "novedad", wn_e1_title: "API.Config — tabla de configuración global", wn_e1_desc: "Una única tabla que controla la compatibilidad de juego y el sistema de claves.",
-      
-      api_eyebrow: "documentación", api_title: "Referencia API", api_desc: "Todo lo que puedes construir con la librería de Happy Hub.",
-      
-      donate_eyebrow: "soporte", donate_title: "Donar", donate_desc: "Opcional. Todo aquí sigue siendo gratis de todas formas.", donate_btn: "Donar"
-    }
-  };
-
-  const userLang = navigator.language.split('-')[0];
-  const currentLang = translations[userLang] ? userLang : 'en';
-  const t = (key) => translations[currentLang][key] || translations['en'][key];
-
-  let currentScriptCode = "";
-  let WebStorage = null;
-
-  function applyTranslations() {
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      el.innerText = t(el.getAttribute('data-i18n'));
-    });
-    document.querySelectorAll('[data-i18n-html]').forEach(el => {
-      el.innerHTML = t(el.getAttribute('data-i18n-html'));
-    });
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-      el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
-    });
-  }
-
-  function parseLuaToJSON(luaText) {
-    try {
-      let clean = luaText
-        .replace(/--.*$/gm, '')
-        .replace(/local\s+WebStorage\s*=\s*/, 'return ')
-        .replace(/return\s+WebStorage\s*;?/, '');
-        
-      // Fix missing commas
-      clean = clean.replace(/(["'])(.*?)\1\s*([a-zA-Z_])/g, '$1$2$1, $3');
-      clean = clean.replace(/(true|false|\d+)\s*([a-zA-Z_])/g, '$1, $2');
-      clean = clean.replace(/\}\s*([a-zA-Z_])/g, '}, $1');
-      
-      // Fix missing Scripts array closing bracket
-      clean = clean.replace(/\},\s*PrivacyPolicy/g, '}], PrivacyPolicy');
-
-      // Quote keys
-      clean = clean.replace(/([{,]\s*)([a-zA-Z_][a-zA-Z0-9_]*)\s*=/g, '$1"$2":');
-
-      return new Function(clean)();
-    } catch (error) {
-      console.error("Lua Parse Error:", error);
-      return null;
-    }
-  }
-
-  async function fetchDataStorage() {
-    const url = "https://raw.githubusercontent.com/overthcode2011-stack/replicatedscripts/refs/heads/happyhub.net/DataStorage.lua";
-    
-    try {
-      const response = await fetch(url);
-      if (!response.ok) throw new Error("Network response error");
-      const text = await response.text();
-      
-      WebStorage = parseLuaToJSON(text);
-      
-      if (WebStorage) {
-        renderCatalog();
-        renderPrivacy();
-      } else {
-        document.getElementById('loadingText').innerText = "Error parsing DataStorage.lua. Fix syntax errors in your file.";
-        document.getElementById('loadingText').style.color = "#ff6b6b";
-      }
-    } catch (error) {
-      console.error("Fetch error:", error);
-      document.getElementById('loadingText').innerText = "Failed to fetch DataStorage.lua.";
-      document.getElementById('loadingText').style.color = "#ff6b6b";
-    }
-  }
-
-  function renderCatalog() {
-    const scriptGrid = document.getElementById('scriptGrid');
-    scriptGrid.innerHTML = '';
-    
-    const badgeUrl = WebStorage.SiteConfig.VerifiedBadgeUrl;
-
-    WebStorage.Scripts.forEach(script => {
-      const verifiedHTML = script.Verified ? `<img src="${badgeUrl}" class="verified-badge" title="Verified" alt="Verified">` : '';
-      
-      scriptGrid.innerHTML += `
-        <div class="card" onclick="openScriptDetail('${script.Id}')">
-          <img src="${script.Thumbnail}" class="card-image" alt="${script.Title}" loading="lazy" onerror="this.src='https://tr.rbxcdn.com/180DAY-85562c0efb45221628a4c872e35cf587/420/420/Decal/Webp/noFilter'">
-          <div class="card-content">
-            <div class="game-title">${script.GameName || 'Unknown Game'}</div>
-            <div class="script-name">${script.Title}</div>
-            <div class="script-desc">${script.Description}</div>
-            <div class="card-footer">
-              <div class="uploader">by ${script.Uploader} ${verifiedHTML}</div>
-            </div>
-          </div>
-        </div>
-      `;
-    });
-  }
-
-  function renderPrivacy() {
-    const privacyGrid = document.getElementById('privacyGrid');
-    if (!WebStorage.PrivacyPolicy) return;
-    const policy = WebStorage.PrivacyPolicy;
-    
-    const createList = (title, items) => `
-      <div class="privacy-box">
-        <h3>${title}</h3>
-        <ul>${items.map(i => `<li>${i}</li>`).join('')}</ul>
-      </div>
-    `;
-    
-    privacyGrid.innerHTML = 
-      createList(t('privacy_hide'), policy.WhatWeHide) +
-      createList(t('privacy_allowed'), policy.Allowed) +
-      createList(t('privacy_denied'), policy.NotAllowed);
-  }
-
-  window.openScriptDetail = function(id) {
-    if (!WebStorage) return;
-    const script = WebStorage.Scripts.find(s => s.Id === id);
-    if (!script) return;
-
-    currentScriptCode = script.ScriptCode;
-
-    document.getElementById('detailImg').src = script.Thumbnail;
-    document.getElementById('detailGame').innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4m-2-2v4m8-2h.01M18 10h.01"/></svg> ${script.GameName || 'Unknown Game'}`;
-    document.getElementById('detailTitle').textContent = script.Title;
-    document.getElementById('detailAuthor').innerHTML = `by ${script.Uploader} ${script.Verified ? `<img src="${WebStorage.SiteConfig.VerifiedBadgeUrl}" class="verified-badge" style="display:inline; vertical-align:middle; margin-left:4px;">` : ''}`;
-    document.getElementById('detailDesc').textContent = script.Description;
-    document.getElementById('detailPlayBtn').href = script.GameUrl || '#';
-
-    const noteEl = document.getElementById('detailNote');
-    if (script.CreatorComment) {
-      noteEl.style.display = 'block';
-      noteEl.innerHTML = `"${script.CreatorComment}" — ${script.Uploader}`;
-    } else {
-      noteEl.style.display = 'none';
-    }
-
-    navigate('detail');
-  }
-
-  window.copyScript = function() {
-    if (!currentScriptCode) return;
-    
-    navigator.clipboard.writeText(currentScriptCode).then(() => {
-      const btn = document.getElementById('copyBtn');
-      const originalHTML = btn.innerHTML;
-      
-      btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> ${t('copied_btn')}`;
-      btn.style.background = "#fff";
-      
-      setTimeout(() => {
-        btn.innerHTML = originalHTML;
-        btn.style.background = "var(--green)";
-      }, 2000);
-    }).catch(err => {
-      console.error("Failed to copy: ", err);
-    });
-  }
-
-  window.navigate = function(viewId) {
-    document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    
-    document.getElementById(`view-${viewId}`).classList.add('active');
-    
-    const navTarget = viewId === 'detail' ? 'catalog' : viewId;
-    const activeNav = document.querySelector(`.nav-item[data-target="${navTarget}"]`);
-    if (activeNav) activeNav.classList.add('active');
-
-    document.getElementById('viewContainer').scrollTop = 0;
-  }
-
-  // Start
-  applyTranslations();
-  fetchDataStorage();
-</script>
-
+<script type="module" src="./caller.js"></script>
 </body>
 </html>
