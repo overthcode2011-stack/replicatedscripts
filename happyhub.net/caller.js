@@ -1,11 +1,9 @@
 (() => {
   'use strict';
-  console.log("Happy Hub: caller.js loaded successfully.");
+  console.log("replicatedscripts.net: caller.js loaded successfully.");
 
-  const LUA_URL = 'https://raw.githubusercontent.com/overthcode2011-stack/replicatedscripts/refs/heads/happyhub.net/DataStorage.lua';
+  const LUA_URL = 'https://raw.githubusercontent.com/overthcode2011-stack/replicatedscripts/refs/heads/happyhub.net/happyhub.net/DataStorage.lua';
   const FALLBACK_THUMB = 'https://tr.rbxcdn.com/180DAY-85562c0efb45221628a4c872e35cf587/420/420/Decal/Webp/noFilter';
-
-  
 
   const LUA_TOKEN = new RegExp([
     '\\s+',                                    
@@ -125,16 +123,13 @@
     return parseTable();
   }
 
-  
-   
-
-  const PROTECTED = { brand: 'Happy Hub', hub: 'Script Hub', copy: 'Copy Script' };
+  const PROTECTED = { brand: 'replicatedscripts.net', hub: 'Script Hub', copy: 'Copy Script' };
 
   const TRANSLATIONS = {
     en: {
       nav_home: 'Home', nav_scripts: 'Official Scripts', nav_features: 'Features', nav_whatsnew: "What's New", nav_api: 'API Reference', nav_donate: 'Donate',
       user_name: 'User', search_placeholder: 'Search current page...',
-      home_eyebrow: 'private dashboard', home_title: 'Welcome back, User',
+      home_eyebrow: 'private dashboard', home_title: 'Welcome to {brand}',
       home_desc: 'This is your private dashboard. Access official scripts, API documentation, and the latest updates.',
       home_btn_scripts: 'explore scripts', home_btn_api: 'read api docs',
       catalog_eyebrow: 'official releases', catalog_title: '{brand} Scripts',
@@ -159,7 +154,7 @@
     es: {
       nav_home: 'Inicio', nav_scripts: 'Scripts Oficiales', nav_features: 'Funciones', nav_whatsnew: 'Novedades', nav_api: 'Referencia API', nav_donate: 'Donar',
       user_name: 'Usuario', search_placeholder: 'Buscar en esta página...',
-      home_eyebrow: 'panel privado', home_title: 'Bienvenido de nuevo, Usuario',
+      home_eyebrow: 'panel privado', home_title: 'Bienvenido a {brand}',
       home_desc: 'Este es tu panel privado. Accede a scripts oficiales, documentación de la API y las últimas actualizaciones.',
       home_btn_scripts: 'explorar scripts', home_btn_api: 'leer docs api',
       catalog_eyebrow: 'lanzamientos oficiales', catalog_title: 'Scripts de {brand}',
@@ -198,8 +193,6 @@
     document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => { el.placeholder = t(el.dataset.i18nPlaceholder); });
   }
 
-  
-
   const $ = (id) => document.getElementById(id);
   const state = { data: null, currentScript: null };
 
@@ -219,7 +212,6 @@
       : CHECK_SVG;
   }
 
-  
   function showStatus(messageKey, { error = false, retry = false } = {}) {
     $('scriptGrid').innerHTML =
       `<div class="status-msg${error ? ' error' : ''}"><p>${esc(t(messageKey))}</p>` +
@@ -289,8 +281,6 @@
     navigate('detail');
   }
 
-  
-
   let copyTimer = null;
 
   function legacyCopy(text) {
@@ -333,8 +323,6 @@
     }
   }
 
-
-
   function navigate(viewId) {
     const view = $(`view-${viewId}`);
     if (!view) return;
@@ -370,7 +358,6 @@
     }
   }, true);
 
-  
   async function loadData() {
     showStatus('loading_text');
     try {
@@ -385,7 +372,6 @@
     }
   }
 
-  // Start application
   applyTranslations();
   loadData();
 })();
