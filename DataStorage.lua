@@ -1,3 +1,5 @@
+
+
 local WebStorage = {
     SiteConfig = {
         Version = "v11.7.0",
@@ -17,15 +19,15 @@ local WebStorage = {
             Uploader = "replicated man",
             Verified = true,
             CreatorComment = "Tested on latest patch. Works flawlessly.",
-            ScriptCode = "loadstring(game:HttpGet('https://raw.githubusercontent.com/overthcode2011-stack/HHB/refs/heads/main/main.lua'))()",
+            ScriptCode = [==[loadstring(game:HttpGet('https://raw.githubusercontent.com/overthcode2011-stack/HHB/refs/heads/main/main.lua'))()]==],
             IsOfficial = true,
             GameUrl = "https://www.roblox.com/games/142823291",
-        }
+        },
     },
 
     PrivacyPolicy = {
         WhatWeHide = {
-            "UNC 60% ",
+            "UNC 60%",
             "Commands admin if you use our api",
         },
         Allowed = {
@@ -36,8 +38,8 @@ local WebStorage = {
         NotAllowed = {
             "Selling an existing script hub that uses our API",
             "Using our API to create fake script hubs that contain tools for account theft.",
-        }
-    }
+        },
+    },
 }
 
 return WebStorage
