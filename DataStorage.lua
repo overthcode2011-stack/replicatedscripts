@@ -3,7 +3,7 @@ local WebStorage = {
         Version = "v11.7.0",
         Theme = "OrangeDark",
         ShowVerifiedBadge = true,
-        VerifiedBadgeUrl = "https://tr.rbxcdn.com/180DAY-87e64343dde2f4088286444b269310ff/420/420/Decal/Webp/noFilter", 
+        VerifiedBadgeUrl = "https://tr.rbxcdn.com/180DAY-87e64343dde2f4088286444b269310ff/420/420/Decal/Webp/noFilter",
     },
 
     Scripts = {
@@ -16,12 +16,12 @@ local WebStorage = {
             Thumbnail = "https://www.rblxscripts.net/_next/image?url=https%3A%2F%2Fcdn.rblxscripts.net%2Fthumbnails%2FFfCAJLZMaS8rNX8HHQQ7zdWfCYFGaKO2_1792456751969_thumb.jpg&w=1080&q=75",
             Uploader = "replicated man",
             Verified = true,
-            CreatorComment = "Tested on latest patch. Works flawlessly.", 
+            CreatorComment = "Tested on latest patch. Works flawlessly.",
             ScriptCode = "loadstring(game:HttpGet('https://raw.githubusercontent.com/overthcode2011-stack/HHB/refs/heads/main/main.lua'))()",
-            IsOfficial = true, 
+            IsOfficial = true,
             GameUrl = "https://www.roblox.com/games/142823291",
         }
-    }, 
+    },
 
     PrivacyPolicy = {
         WhatWeHide = {
