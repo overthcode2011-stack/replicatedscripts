@@ -1,377 +1,363 @@
-(() => {
-  'use strict';
-  console.log("replicatedscripts.net: caller.js loaded successfully.");
-
-  const LUA_URL = 'https://raw.githubusercontent.com/overthcode2011-stack/replicatedscripts/refs/heads/happyhub.net/happyhub.net/DataStorage.lua';
-  const FALLBACK_THUMB = 'https://tr.rbxcdn.com/180DAY-85562c0efb45221628a4c872e35cf587/420/420/Decal/Webp/noFilter';
-
-  const LUA_TOKEN = new RegExp([
-    '\\s+',                                    
-    '--\\[(=*)\\[[\\s\\S]*?\\]\\1\\]',         
-    '--[^\\n]*',                               
-    '\\[(=*)\\[([\\s\\S]*?)\\]\\2\\]',         
-    '"((?:[^"\\\\\\n]|\\\\[\\s\\S])*)"',       
-    "'((?:[^'\\\\\\n]|\\\\[\\s\\S])*)'",       
-    '(-?(?:0[xX][0-9a-fA-F]+|\\d+\\.?\\d*(?:[eE][+-]?\\d+)?|\\.\\d+))', 
-    '([A-Za-z_][A-Za-z0-9_]*)',                
-    '(\\.\\.|[{}\\[\\]=,;])'                   
-  ].join('|'), 'y');
-
-  const LUA_ESCAPES = { n: '\n', t: '\t', r: '\r', a: '\x07', b: '\b', f: '\f', v: '\v' };
-
-  function unescapeLua(s) {
-    return s.replace(
-      /\\(?:(\d{1,3})|x([0-9a-fA-F]{2})|u\{([0-9a-fA-F]+)\}|z\s*|([\s\S]))/g,
-      (_, dec, hex, uni, ch) => {
-        if (dec !== undefined) return String.fromCharCode(Number(dec));
-        if (hex !== undefined) return String.fromCharCode(parseInt(hex, 16));
-        if (uni !== undefined) return String.fromCodePoint(parseInt(uni, 16));
-        if (ch === undefined) return '';
-        return LUA_ESCAPES[ch] ?? ch;
-      }
-    );
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>replicatedscripts.net</title>
+<link rel="icon" type="image/webp" href="https://tr.rbxcdn.com/180DAY-85562c0efb45221628a4c872e35cf587/150/150/Decal/Webp/noFilter">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  :root {
+    --bg: #000000; --green: #00e676; --green-bright: #00ff88;
+    --green-line: rgba(0, 230, 118, 0.18); --green-soft: rgba(0, 230, 118, 0.05);
+    --text: #ffffff; --muted: rgba(255, 255, 255, 0.62);
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
   }
-
-  function tokenizeLua(src) {
-    const tokens = [];
-    LUA_TOKEN.lastIndex = 0;
-    while (LUA_TOKEN.lastIndex < src.length) {
-      const at = LUA_TOKEN.lastIndex;
-      const m = LUA_TOKEN.exec(src);
-      if (!m) throw new SyntaxError(`Unexpected character "${src[at]}" at position ${at}`);
-      if (m[3] !== undefined) tokens.push({ t: 'str', v: m[3].replace(/^\r?\n/, '') });
-      else if (m[4] !== undefined) tokens.push({ t: 'str', v: unescapeLua(m[4]) });
-      else if (m[5] !== undefined) tokens.push({ t: 'str', v: unescapeLua(m[5]) });
-      else if (m[6] !== undefined) tokens.push({ t: 'num', v: Number(m[6]) });
-      else if (m[7] !== undefined) tokens.push({ t: 'id', v: m[7] });
-      else if (m[8] !== undefined) tokens.push({ t: m[8] });
-    }
-    return tokens;
+  html, body { height: 100%; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: var(--font-body); min-height: 100vh;
+    display: flex; overflow-x: hidden; -webkit-font-smoothing: antialiased;
   }
+  body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(circle at 50% -10%, rgba(0, 230, 118, 0.13), transparent 55%), radial-gradient(circle at 50% 110%, rgba(0, 230, 118, 0.07), transparent 60%); pointer-events: none; z-index: 0; }
+  body::after { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(0, 230, 118, 0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 230, 118, 0.035) 1px, transparent 1px); background-size: 64px 64px; -webkit-mask-image: radial-gradient(circle at 50% 40%, #000 0%, transparent 78%); mask-image: radial-gradient(circle at 50% 40%, #000 0%, transparent 78%); pointer-events: none; z-index: 0; }
+  * { scrollbar-width: thin; scrollbar-color: rgba(0, 230, 118, 0.55) rgba(0, 230, 118, 0.04); }
+  ::-webkit-scrollbar { width: 9px; height: 9px; }
+  ::-webkit-scrollbar-track { background: rgba(0, 230, 118, 0.04); border-left: 1px solid rgba(0, 230, 118, 0.08); }
+  ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, rgba(0, 230, 118, 0.7), rgba(0, 230, 118, 0.35)); border-radius: 6px; border: 2px solid #000; }
+  .app-container { display: flex; width: 100%; height: 100vh; overflow: hidden; position: relative; z-index: 2; }
+  .sidebar { width: 260px; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(10px); border-right: 1px solid var(--green-line); padding: 2rem 0; display: flex; flex-direction: column; z-index: 10; flex-shrink: 0; }
+  
+  /* Logo actualizado: replicatedscripts en blanco, .net en verde */
+  .sidebar-brand { padding: 0 1.5rem 2rem; font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: #fff; text-shadow: 0 0 15px rgba(0, 230, 118, 0.4); }
+  .sidebar-brand span { color: var(--green); }
 
-  function parseLua(source) {
-    const tokens = tokenizeLua(source);
-    let pos = tokens.findIndex((tk) => tk.t === '{');
-    if (pos === -1) throw new SyntaxError('No table constructor found');
-
-    const expect = (type) => {
-      if (!tokens[pos] || tokens[pos].t !== type) {
-        throw new SyntaxError(`Expected "${type}" but found "${tokens[pos]?.t ?? 'end of file'}"`);
-      }
-      pos++;
-    };
-
-    function parseAtom() {
-      const tk = tokens[pos];
-      if (!tk) throw new SyntaxError('Unexpected end of file');
-      if (tk.t === '{') return parseTable();
-      pos++;
-      if (tk.t === 'str' || tk.t === 'num') return tk.v;
-      if (tk.t === 'id') {
-        if (tk.v === 'true') return true;
-        if (tk.v === 'false') return false;
-        if (tk.v === 'nil') return null;
-      }
-      throw new SyntaxError(`Unexpected token "${tk.v ?? tk.t}"`);
-    }
-
-    function parseValue() {
-      let value = parseAtom();
-      while (typeof value === 'string' && tokens[pos]?.t === '..') {
-        pos++;
-        value += String(parseAtom());
-      }
-      return value;
-    }
-
-    function parseTable() {
-      expect('{');
-      const list = [];
-      const map = {};
-      let hasKeys = false;
-
-      while (pos < tokens.length && tokens[pos].t !== '}') {
-        const tk = tokens[pos];
-        if (tk.t === 'id' && tokens[pos + 1]?.t === '=') {
-          pos += 2;
-          map[tk.v] = parseValue();
-          hasKeys = true;
-        } else if (tk.t === '[') {
-          pos++;
-          const key = parseValue();
-          expect(']');
-          expect('=');
-          map[key] = parseValue();
-          hasKeys = true;
-        } else {
-          list.push(parseValue());
-        }
-        if (tokens[pos]?.t === ',' || tokens[pos]?.t === ';') pos++;
-      }
-
-      if (pos >= tokens.length) {
-        console.warn('DataStorage.lua: unclosed table, auto-closing at end of file.');
-      } else {
-        pos++;
-      }
-
-      if (!hasKeys) return list;
-      list.forEach((v, i) => { map[i + 1] = v; });
-      return map;
-    }
-
-    return parseTable();
+  .sidebar-nav { display: flex; flex-direction: column; gap: 0.2rem; overflow-y: auto; }
+  .nav-item { padding: 0.8rem 1.5rem; color: var(--muted); text-decoration: none; font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; gap: 0.75rem; transition: 0.3s; border-left: 2px solid transparent; cursor: pointer; background: none; border-top: none; border-right: none; border-bottom: none; font-family: var(--font-body); text-align: left; }
+  .nav-item svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .nav-item:hover, .nav-item.active { color: var(--green); background: var(--green-soft); border-left-color: var(--green); }
+  .main-wrapper { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+  .topbar { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; border-bottom: 1px solid var(--green-line); background: rgba(0,0,0,0.4); backdrop-filter: blur(10px); z-index: 5; }
+  .search-bar { background: rgba(255,255,255,0.03); border: 1px solid var(--green-line); padding: 0.6rem 1rem; border-radius: 4px; color: #fff; font-family: var(--font-body); width: 300px; outline: none; }
+  .user-account { display: flex; align-items: center; gap: 0.75rem; font-family: var(--font-display); font-size: 0.85rem; font-weight: 600; }
+  .user-icon { width: 32px; height: 32px; border-radius: 50%; background: var(--green-soft); border: 1px solid var(--green-line); display: flex; align-items: center; justify-content: center; color: var(--green); }
+  .view-container { flex: 1; overflow-y: auto; padding: 2rem; scroll-behavior: smooth; }
+  .view-section { display: none; max-width: 1100px; margin: 0 auto; animation: fadeIn 0.4s ease; }
+  .view-section.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .eyebrow { font-family: var(--font-display); font-size: 0.68rem; letter-spacing: 0.28em; text-transform: lowercase; color: var(--green); margin-bottom: 0.5rem; font-weight: 600; }
+  .page-title { font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem; line-height: 1.1; }
+  .lead { font-size: 1rem; font-weight: 300; line-height: 1.7; color: var(--muted); margin-bottom: 2rem; }
+  h3.section-title { font-family: var(--font-display); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.2em; text-transform: lowercase; color: var(--green); margin: 2.5rem 0 1rem; border-bottom: 1px solid var(--green-line); padding-bottom: 0.5rem; }
+  p { font-size: 0.95rem; line-height: 1.8; color: var(--muted); margin-bottom: 1.2rem; }
+  p strong { color: #fff; }
+  code { font-family: var(--font-mono); font-size: 0.85em; color: var(--green-bright); background: rgba(0, 230, 118, 0.08); padding: 0.1em 0.4em; border-radius: 3px; }
+  ul { list-style: none; margin: 0.5rem 0 1.5rem; }
+  li { position: relative; padding-left: 1.5rem; margin-bottom: 0.6rem; font-size: 0.92rem; line-height: 1.7; color: var(--muted); }
+  li::before { content: ''; position: absolute; left: 0.2rem; top: 0.62em; border-left: 6px solid var(--green); border-top: 4px solid transparent; border-bottom: 4px solid transparent; }
+  li strong { color: #fff; }
+  pre { background: #060a08; border: 1px solid var(--green-line); border-left: 2px solid var(--green); padding: 1.2rem; overflow-x: auto; font-size: 0.82rem; line-height: 1.7; color: #cfe6d6; border-radius: 4px; margin: 1rem 0 1.5rem; }
+  pre code { background: none; padding: 0; color: inherit; }
+  .btn { font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: lowercase; padding: 0.9rem 1.8rem; background: transparent; color: #fff; border: 1px solid var(--green-line); cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; border-radius: 4px; }
+  .btn:hover { border-color: var(--green); box-shadow: 0 0 15px rgba(0, 230, 118, 0.2); }
+  .btn.primary { background: var(--green); color: #001b0d; border-color: var(--green); }
+  .btn.primary:hover { background: var(--green-bright); box-shadow: 0 0 20px rgba(0, 255, 136, 0.4); }
+  .script-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+  .card { padding: 0; border: 1px solid var(--green-line); background: linear-gradient(180deg, var(--green-soft), transparent 70%); transition: 0.3s; display: flex; flex-direction: column; overflow: hidden; border-radius: 6px; cursor: pointer; }
+  .card:hover { border-color: var(--green); transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0, 230, 118, 0.1); }
+  .card-image { width: 100%; height: 180px; object-fit: cover; border-bottom: 1px solid var(--green-line); background: #111; }
+  .card-content { padding: 1.2rem; flex: 1; display: flex; flex-direction: column; }
+  .game-title { font-family: var(--font-display); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); margin-bottom: 0.3rem; font-weight: 600; }
+  .script-name { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; color: #fff; margin-bottom: 0.5rem; line-height: 1.3; }
+  .script-desc { font-size: 0.85rem; line-height: 1.6; color: var(--muted); margin-bottom: 1rem; flex: 1; }
+  .card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(0, 230, 118, 0.1); padding-top: 0.8rem; }
+  .uploader { display: flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; color: var(--muted); font-weight: 500; }
+  .verified-badge { width: 14px; height: 14px; }
+  .detail-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.5rem; }
+  @media (max-width: 900px) { .detail-layout { grid-template-columns: 1fr; } }
+  .detail-image-wrapper { border: 1px solid var(--green-line); border-radius: 6px; overflow: hidden; background: #000; position: relative; }
+  .detail-image-wrapper img { width: 100%; height: auto; display: block; object-fit: cover; }
+  .detail-info { display: flex; flex-direction: column; justify-content: center; }
+  .detail-game { font-family: var(--font-display); font-size: 0.9rem; color: var(--muted); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+  .detail-title { font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; color: #fff; line-height: 1.1; margin-bottom: 1rem; }
+  .detail-author { font-size: 0.9rem; color: var(--muted); margin-bottom: 2rem; }
+  .detail-actions { display: flex; gap: 1rem; margin-bottom: 2rem; }
+  .btn-copy { background: var(--green); color: #001b0d; border: none; padding: 1rem 2rem; border-radius: 6px; font-family: var(--font-display); font-weight: 700; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: 0.3s; flex: 1; justify-content: center; }
+  .btn-copy:hover { background: var(--green-bright); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3); }
+  .btn-play { background: #00b06f; color: #fff; border: none; padding: 1rem 2rem; border-radius: 6px; font-family: var(--font-display); font-weight: 700; font-size: 1rem; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; transition: 0.3s; justify-content: center; }
+  .btn-play:hover { background: #00d686; transform: translateY(-2px); }
+  .btn-back { background: transparent; color: var(--muted); border: 1px solid var(--green-line); padding: 0.6rem 1.2rem; border-radius: 4px; cursor: pointer; font-family: var(--font-display); display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem; transition: 0.3s; }
+  .btn-back:hover { color: #fff; border-color: #fff; }
+  .detail-desc-title { font-family: var(--font-display); font-size: 1.2rem; color: #fff; margin: 3rem 0 1rem; border-bottom: 1px solid var(--green-line); padding-bottom: 0.5rem; }
+  .detail-desc-text { font-size: 1rem; line-height: 1.8; color: var(--muted); }
+  .creator-note { background: rgba(0, 230, 118, 0.05); border-left: 2px solid var(--green); padding: 0.8rem; font-size: 0.85rem; color: rgba(255,255,255,0.7); font-style: italic; margin-bottom: 1rem; border-radius: 0 4px 4px 0; }
+  .privacy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+  .privacy-box { padding: 1.2rem; border: 1px solid var(--green-line); background: rgba(0,0,0,0.4); border-radius: 4px; }
+  .privacy-box h3 { font-family: var(--font-display); font-size: 0.85rem; color: var(--green); margin-bottom: 0.8rem; text-transform: uppercase; }
+  .method { border: 1px solid var(--green-line); border-radius: 4px; padding: 1.2rem; margin: 1rem 0; background: rgba(0, 230, 118, 0.02); }
+  .method-name { font-family: var(--font-mono); font-size: 0.88rem; color: var(--green-bright); font-weight: 600; display: block; margin-bottom: 0.5rem; }
+  .entry { border: 1px solid var(--green-line); border-radius: 4px; padding: 1.2rem; margin: 1rem 0; background: rgba(0, 230, 118, 0.02); }
+  .entry-head { display: flex; gap: 0.75rem; margin-bottom: 0.8rem; align-items: center; }
+  .tag { font-family: var(--font-mono); font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 3px; display: inline-flex; align-items: center; gap: 0.3rem; }
+  .tag-feature { background: var(--green); color: #001b0d; }
+  .entry-title { font-family: var(--font-display); font-size: 0.95rem; font-weight: 600; color: #fff; }
+  @media (max-width: 900px) {
+    .app-container { flex-direction: column; }
+    .sidebar { width: 100%; height: auto; padding: 1rem; border-right: none; border-bottom: 1px solid var(--green-line); }
+    .sidebar-brand { padding: 0 0 1rem 0; text-align: center; }
+    .sidebar-nav { flex-direction: row; overflow-x: auto; padding-bottom: 0.5rem; gap: 0.5rem; }
+    .nav-item { padding: 0.5rem 1rem; border-left: none; border-bottom: 2px solid transparent; white-space: nowrap; font-size: 0.75rem; }
+    .nav-item.active { border-left: none; border-bottom-color: var(--green); }
+    .topbar { flex-direction: column; gap: 1rem; padding: 1rem; }
+    .search-bar { width: 100%; }
+    .view-container { padding: 1.5rem 1rem; }
   }
-
-  const PROTECTED = { brand: 'replicatedscripts.net', hub: 'Script Hub', copy: 'Copy Script' };
-
-  const TRANSLATIONS = {
-    en: {
-      nav_home: 'Home', nav_scripts: 'Official Scripts', nav_features: 'Features', nav_whatsnew: "What's New", nav_api: 'API Reference', nav_donate: 'Donate',
-      user_name: 'User', search_placeholder: 'Search current page...',
-      home_eyebrow: 'private dashboard', home_title: 'Welcome to {brand}',
-      home_desc: 'This is your private dashboard. Access official scripts, API documentation, and the latest updates.',
-      home_btn_scripts: 'explore scripts', home_btn_api: 'read api docs',
-      catalog_eyebrow: 'official releases', catalog_title: '{brand} Scripts',
-      catalog_desc: 'Only scripts maintained and verified by the {brand} team.',
-      loading_text: 'Loading catalog...', catalog_empty: 'No scripts available yet.',
-      error_fetch: 'Could not download the catalog. Check your connection and try again.',
-      error_parse: 'The catalog file could not be read. Check the syntax of DataStorage.lua.',
-      retry_btn: 'Retry', by: 'by', verified: 'Verified', unknown_game: 'Unknown Game',
-      policies_eyebrow: 'policies', privacy_title: 'Privacy & Terms',
-      back_btn: 'Back to Scripts', copy_btn: '{copy}', copied_btn: 'Copied!', play_btn: 'Play', desc_title: 'Description',
-      privacy_hide: 'What We Hide', privacy_allowed: 'What You Can Do', privacy_denied: 'What You Cannot Do',
-      features_eyebrow: 'capabilities', features_title: 'Features', features_desc: 'What you get out of the box with {brand}.',
-      feat_h1: 'UI & Themes', feat_l1: '<strong>10 built-in themes</strong> including the new <strong>Dark</strong> default.',
-      feat_l2: '<strong>Pill toggles with check/X icons</strong> inside the knob.', feat_l3: '<strong>Image cards</strong> with title, subtitle, and description.',
-      feat_h2: 'Configs & Storage', feat_l4: '<strong>Per-game config files</strong> keyed by PlaceId.',
-      feat_l5: '<strong>Save, load, delete, and reset to defaults.</strong>', feat_l6: '<strong>Customizable storage folder, subfolder and extension.</strong>',
-      wn_eyebrow: 'changelog', wn_title: "What's New", wn_desc: 'Latest updates and patches.',
-      tag_feature: 'feature', wn_e1_title: 'API.Config — global configuration table', wn_e1_desc: 'A single table that controls game compatibility and the key system.',
-      api_eyebrow: 'documentation', api_title: 'API Reference', api_desc: 'Everything you can build with the {brand} library.',
-      donate_eyebrow: 'support', donate_title: 'Donate', donate_desc: 'Optional. Everything here stays free either way.', donate_btn: 'Donate'
-    },
-    es: {
-      nav_home: 'Inicio', nav_scripts: 'Scripts Oficiales', nav_features: 'Funciones', nav_whatsnew: 'Novedades', nav_api: 'Referencia API', nav_donate: 'Donar',
-      user_name: 'Usuario', search_placeholder: 'Buscar en esta página...',
-      home_eyebrow: 'panel privado', home_title: 'Bienvenido a {brand}',
-      home_desc: 'Este es tu panel privado. Accede a scripts oficiales, documentación de la API y las últimas actualizaciones.',
-      home_btn_scripts: 'explorar scripts', home_btn_api: 'leer docs api',
-      catalog_eyebrow: 'lanzamientos oficiales', catalog_title: 'Scripts de {brand}',
-      catalog_desc: 'Solo scripts mantenidos y verificados por el equipo de {brand}.',
-      loading_text: 'Cargando catálogo...', catalog_empty: 'Todavía no hay scripts disponibles.',
-      error_fetch: 'No se pudo descargar el catálogo. Revisa tu conexión e inténtalo de nuevo.',
-      error_parse: 'No se pudo leer el archivo del catálogo. Revisa la sintaxis de DataStorage.lua.',
-      retry_btn: 'Reintentar', by: 'por', verified: 'Verificado', unknown_game: 'Juego desconocido',
-      policies_eyebrow: 'políticas', privacy_title: 'Privacidad y Términos',
-      back_btn: 'Volver a Scripts', copy_btn: '{copy}', copied_btn: '¡Copiado!', play_btn: 'Jugar', desc_title: 'Descripción',
-      privacy_hide: 'Lo que ocultamos', privacy_allowed: 'Lo que puedes hacer', privacy_denied: 'Lo que no puedes hacer',
-      features_eyebrow: 'capacidades', features_title: 'Funciones', features_desc: 'Lo que obtienes de serie con {brand}.',
-      feat_h1: 'UI y Temas', feat_l1: '<strong>10 temas integrados</strong> incluyendo el nuevo <strong>Dark</strong> por defecto.',
-      feat_l2: '<strong>Toggles tipo píldora con iconos check/X</strong> dentro del selector.', feat_l3: '<strong>Tarjetas con imagen</strong>, título, subtítulo y descripción.',
-      feat_h2: 'Configs y Almacenamiento', feat_l4: '<strong>Archivos de config por juego</strong> usando PlaceId.',
-      feat_l5: '<strong>Guardar, cargar, eliminar y restablecer valores por defecto.</strong>', feat_l6: '<strong>Carpeta raíz, subcarpeta y extensión configurables.</strong>',
-      wn_eyebrow: 'changelog', wn_title: 'Novedades', wn_desc: 'Últimas actualizaciones y parches.',
-      tag_feature: 'novedad', wn_e1_title: 'API.Config — tabla de configuración global', wn_e1_desc: 'Una única tabla que controla la compatibilidad de juego y el sistema de claves.',
-      api_eyebrow: 'documentación', api_title: 'Referencia API', api_desc: 'Todo lo que puedes construir con la librería de {brand}.',
-      donate_eyebrow: 'soporte', donate_title: 'Donar', donate_desc: 'Opcional. Todo aquí sigue siendo gratis de todas formas.', donate_btn: 'Donar'
-    }
-  };
-
-  const browserLang = ((navigator.languages && navigator.languages[0]) || navigator.language || 'en')
-    .slice(0, 2).toLowerCase();
-  const currentLang = TRANSLATIONS[browserLang] ? browserLang : 'en';
-
-  const t = (key) =>
-    (TRANSLATIONS[currentLang][key] ?? TRANSLATIONS.en[key] ?? key)
-      .replace(/\{(\w+)\}/g, (match, name) => PROTECTED[name] ?? match);
-
-  function applyTranslations() {
-    document.documentElement.lang = currentLang;
-    document.querySelectorAll('[data-i18n]').forEach((el) => { el.textContent = t(el.dataset.i18n); });
-    document.querySelectorAll('[data-i18n-html]').forEach((el) => { el.innerHTML = t(el.dataset.i18nHtml); });
-    document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => { el.placeholder = t(el.dataset.i18nPlaceholder); });
-  }
-
-  const $ = (id) => document.getElementById(id);
-  const state = { data: null, currentScript: null };
-
-  const HTML_ESCAPES = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
-  const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (c) => HTML_ESCAPES[c]);
-  const safeUrl = (url, fallback = '') => (/^https?:\/\//i.test(url || '') ? url : fallback);
-  const toList = (value) => (Array.isArray(value) ? value : []);
-
-  const CHECK_SVG = '<svg class="verified-badge" viewBox="0 0 24 24" fill="none" stroke="#00e676" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-
-  function verifiedBadge(script) {
-    const config = state.data?.SiteConfig || {};
-    if (!script.Verified || config.ShowVerifiedBadge === false) return '';
-    const url = safeUrl(config.VerifiedBadgeUrl);
-    return url
-      ? `<img src="${esc(url)}" class="verified-badge" title="${esc(t('verified'))}" alt="${esc(t('verified'))}">`
-      : CHECK_SVG;
-  }
-
-  function showStatus(messageKey, { error = false, retry = false } = {}) {
-    $('scriptGrid').innerHTML =
-      `<div class="status-msg${error ? ' error' : ''}"><p>${esc(t(messageKey))}</p>` +
-      (retry ? `<button class="btn" data-action="retry">${esc(t('retry_btn'))}</button>` : '') +
-      '</div>';
-  }
-
-  function renderCatalog() {
-    const scripts = toList(state.data?.Scripts);
-    if (!scripts.length) { showStatus('catalog_empty'); return; }
-
-    $('scriptGrid').innerHTML = scripts.map((s) => `
-      <div class="card" data-id="${esc(s.Id)}" role="button" tabindex="0">
-        <img src="${esc(safeUrl(s.Thumbnail, FALLBACK_THUMB))}" class="card-image" alt="${esc(s.Title)}" loading="lazy">
-        <div class="card-content">
-          <div class="game-title">${esc(s.GameName || t('unknown_game'))}</div>
-          <div class="script-name">${esc(s.Title)}</div>
-          <div class="script-desc">${esc(s.Description)}</div>
-          <div class="card-footer">
-            <div class="uploader">${esc(t('by'))} ${esc(s.Uploader)} ${verifiedBadge(s)}</div>
+  [hidden] { display: none !important; }
+  .user-icon svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .tag svg { width: 12px; height: 12px; fill: currentColor; }
+  .btn-copy .icon-check { display: none; }
+  .btn-copy.copied { background: #fff; }
+  .btn-copy.copied .icon-check { display: block; }
+  .btn-copy.copied .icon-copy { display: none; }
+  .status-msg { grid-column: 1 / -1; display: flex; flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+  .status-msg p { color: var(--green); margin-bottom: 0; }
+  .status-msg.error p { color: #ff6b6b; }
+</style>
+</head>
+<body>
+<div class="app-container">
+  <aside class="sidebar">
+    <div class="sidebar-brand">replicatedscripts<span>.net</span></div>
+    <div class="sidebar-nav">
+      <button class="nav-item active" data-nav="home">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span data-i18n="nav_home">Home</span>
+      </button>
+      <button class="nav-item" data-nav="catalog">
+        <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <span data-i18n="nav_scripts">Official Scripts</span>
+      </button>
+      <button class="nav-item" data-nav="features">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span data-i18n="nav_features">Features</span>
+      </button>
+      <button class="nav-item" data-nav="whatsnew">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span data-i18n="nav_whatsnew">What's New</span>
+      </button>
+      <button class="nav-item" data-nav="api">
+        <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+        <span data-i18n="nav_api">API Reference</span>
+      </button>
+      <button class="nav-item" data-nav="donate">
+        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span data-i18n="nav_donate">Donate</span>
+      </button>
+    </div>
+  </aside>
+  <main class="main-wrapper">
+    <header class="topbar">
+      <input type="text" class="search-bar" placeholder="Search current page..." data-i18n-placeholder="search_placeholder" id="searchInput">
+      <div class="user-account">
+        <div class="user-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <span data-i18n="user_name">User</span>
+      </div>
+    </header>
+    <div class="view-container" id="viewContainer">
+      <section class="view-section active" id="view-home">
+        <p class="eyebrow" data-i18n="home_eyebrow">private dashboard</p>
+        <h1 class="page-title" data-i18n="home_title">Welcome to replicatedscripts.net</h1>
+        <p class="lead" data-i18n="home_desc">This is your private dashboard. Access official scripts, API documentation, and the latest updates.</p>
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+          <button class="btn primary" data-nav="catalog" data-i18n="home_btn_scripts">explore scripts</button>
+          <button class="btn" data-nav="api" data-i18n="home_btn_api">read api docs</button>
+        </div>
+      </section>
+      <section class="view-section" id="view-catalog">
+        <p class="eyebrow" data-i18n="catalog_eyebrow">official releases</p>
+        <h1 class="page-title" data-i18n="catalog_title">replicatedscripts.net Scripts</h1>
+        <p class="lead" data-i18n="catalog_desc">Only scripts maintained and verified by the replicatedscripts team.</p>
+        <div class="script-grid" id="scriptGrid">
+          <p class="status-msg" data-i18n="loading_text">Loading catalog...</p>
+        </div>
+        <div style="margin-top: 4rem; border-top: 1px solid var(--green-line); padding-top: 2rem;">
+          <p class="eyebrow" data-i18n="policies_eyebrow">policies</p>
+          <h2 class="page-title" style="font-size: 1.5rem; margin-bottom: 1.5rem;" data-i18n="privacy_title">Privacy & Terms</h2>
+          <div class="privacy-grid" id="privacyGrid"></div>
+        </div>
+      </section>
+      <section class="view-section" id="view-detail">
+        <button class="btn-back" data-nav="catalog">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          <span data-i18n="back_btn">Back to Scripts</span>
+        </button>
+        <div class="detail-layout">
+          <div class="detail-image-wrapper">
+            <img id="detailImg" src="" alt="Script Preview">
+          </div>
+          <div class="detail-info">
+            <div class="detail-game" id="detailGame">
+               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4m-2-2v4m8-2h.01M18 10h.01"/></svg>
+               <span id="detailGameName">Game Name</span>
+            </div>
+            <h1 class="detail-title" id="detailTitle">Script Title</h1>
+            <div class="detail-author" id="detailAuthor">by Uploader</div>
+            <div class="detail-actions">
+              <button class="btn-copy" data-action="copy" id="copyBtn">
+                <svg class="icon-copy" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                <svg class="icon-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span id="copyLabel" data-i18n="copy_btn">Copy Script</span>
+              </button>
+              <a href="#" id="detailPlayBtn" target="_blank" class="btn-play">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <span data-i18n="play_btn">Play</span>
+              </a>
+            </div>
+            <div class="creator-note" id="detailNote" hidden></div>
           </div>
         </div>
-      </div>`).join('');
-  }
+        <h3 class="detail-desc-title" data-i18n="desc_title">Description</h3>
+        <p class="detail-desc-text" id="detailDesc">Script description goes here.</p>
+      </section>
+      <section class="view-section" id="view-features">
+        <p class="eyebrow" data-i18n="features_eyebrow">capabilities</p>
+        <h1 class="page-title" data-i18n="features_title">Features</h1>
+        <p class="lead" data-i18n="features_desc">What you get out of the box with replicatedscripts.</p>
+        <h3 class="section-title" data-i18n="feat_h1">UI & Themes</h3>
+        <ul>
+          <li data-i18n-html="feat_l1"><strong>10 built-in themes</strong> including the new <strong>Dark</strong> default.</li>
+          <li data-i18n-html="feat_l2"><strong>Pill toggles with check/X icons</strong> inside the knob.</li>
+          <li data-i18n-html="feat_l3"><strong>Image cards</strong> with title, subtitle, and description.</li>
+        </ul>
+        <h3 class="section-title" data-i18n="feat_h2">Configs & Storage</h3>
+        <ul>
+          <li data-i18n-html="feat_l4"><strong>Per-game config files</strong> keyed by PlaceId.</li>
+          <li data-i18n-html="feat_l5"><strong>Save, load, delete, and reset to defaults.</strong></li>
+          <li data-i18n-html="feat_l6"><strong>Customizable storage folder, subfolder and extension.</strong></li>
+        </ul>
+      </section>
+      <section class="view-section" id="view-whatsnew">
+        <p class="eyebrow" data-i18n="wn_eyebrow">changelog</p>
+        <h1 class="page-title" data-i18n="wn_title">What's New</h1>
+        <p class="lead" data-i18n="wn_desc">Latest updates and patches.</p>
+        <div class="entry">
+          <div class="entry-head">
+            <span class="tag tag-feature"><svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z"/></svg> <span data-i18n="tag_feature">feature</span></span>
+            <div class="entry-title" data-i18n="wn_e1_title">API.Config — global configuration table</div>
+          </div>
+          <p data-i18n="wn_e1_desc">A single table that controls game compatibility and the key system.</p>
+        </div>
+      </section>
+      <section class="view-section" id="view-api">
+        <p class="eyebrow" data-i18n="api_eyebrow">documentation</p>
+        <h1 class="page-title" data-i18n="api_title">API Reference</h1>
+        <p class="lead" data-i18n="api_desc">Everything you can build with the replicatedscripts library.</p>
+        <h3 class="section-title">Global Configuration</h3>
+        <p>A single table, <code>API.Config</code>, that controls game compatibility and the key system.</p>
+        <div class="method">
+          <span class="method-name">API.Config.KeySystem</span>
+          <ul>
+            <li><code>Enabled</code> — disables the entire key flow when <code>false</code>.</li>
+            <li><code>Provider</code> — display name shown in the auth window.</li>
+            <li><code>URL</code> — link copied to clipboard when the user clicks Get Key.</li>
+            <li><code>ExpectedKey</code> — exact key the user must paste to unlock the hub.</li>
+          </ul>
+        </div>
+        <h3 class="section-title">Root API</h3>
+        <div class="method">
+          <span class="method-name">API:CreateWindow(title, subtitle)</span>
+          <p>Creates the main window and returns the window object used to build everything else.</p>
+        </div>
+        <div class="method">
+          <span class="method-name">API:Notify(text, duration)</span>
+          <p>Shows an animated toast notification in the top-right corner.</p>
+        </div>
+        <div class="method">
+          <span class="method-name">API:SetTheme(name) · API:GetTheme() · API:GetThemes()</span>
+          <p>Manage the active theme at runtime.</p>
+        </div>
+        <div class="method">
+          <span class="method-name">API:GetControl(name) · API:GetControlsByName(name)</span>
+          <p>Look up registered controls by name.</p>
+        </div>
+        <h3 class="section-title">Window Methods</h3>
+        <div class="method">
+          <span class="method-name">window:CreateTab(name, iconId)</span>
+          <p>Creates a sidebar tab and returns the tab object.</p>
+        </div>
+        <div class="method">
+          <span class="method-name">window:CreateLabel(tab, text)</span>
+          <p>Accent-colored section header with a typewriter animation.</p>
+        </div>
+        <div class="method">
+          <span class="method-name">window:CreateParagraph(tab, text)</span>
+          <p>Informational paragraph with automatic word-wrap.</p>
+        </div>
+        <div class="method">
+          <span class="method-name">window:CreateImageCard(tab, config)</span>
+          <p>Card with image, title, subtitle and description.</p>
+        </div>
+        <div class="method">
+          <span class="method-name">window:CreateButton(tab, text, callback, tooltip)</span>
+          <p>Clickable button with optional tooltip.</p>
+        </div>
+        <div class="method">
+          <span class="method-name">window:CreateToggle(tab, text, default, callback, desc, tooltip)</span>
+          <p>Pill toggle with a check icon (ON) or X icon (OFF) inside the knob.</p>
+        </div>
+        <div class="method">
+          <span class="method-name">window:CreateSlider(tab, text, min, max, default, callback, tooltip, forceInt)</span>
+          <p>Slider row with auto int/float detection and live value display.</p>
+        </div>
+        <div class="method">
+          <span class="method-name">window:CreateDropdown(tab, text, options, default, callback, tooltip)</span>
+          <p>Single-select dropdown. The list always opens downward.</p>
+        </div>
+        <h3 class="section-title">Config System</h3>
+        <div class="method">
+          <span class="method-name">window:SetConfigSnapshot(fn) · SetConfigApply(fn)</span>
+          <p>Register functions that return the current settings table and apply loaded settings.</p>
+        </div>
+        <div class="method">
+          <span class="method-name">window:BuildConfigPage()</span>
+          <p>Creates a built-in Settings tab with theme dropdown, storage path TextBoxes, config save/load/delete/refresh buttons, reset-to-defaults, and a Delete UI button.</p>
+        </div>
+        <h3 class="section-title">Mobile Helpers</h3>
+        <div class="method">
+          <span class="method-name">window:AddMobileButton(config) · ClearMobileButtons()</span>
+          <p>Adds floating buttons that only appear on mobile (max 3).</p>
+        </div>
+        <h3 class="section-title">Visibility & Teardown</h3>
+        <div class="method">
+          <span class="method-name">window:HideUI() · ShowUI() · ToggleUI() · Destroy()</span>
+          <p>Control whether the hub is visible. <code>Destroy</code> disconnects every tracked connection and removes the ScreenGui.</p>
+        </div>
+      </section>
+      <section class="view-section" id="view-donate">
+        <p class="eyebrow" data-i18n="donate_eyebrow">support</p>
+        <h1 class="page-title" data-i18n="donate_title">Donate</h1>
+        <p class="lead" data-i18n="donate_desc">Optional. Everything here stays free either way.</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+          <div class="card" style="padding: 1.5rem; text-align: center;">
+            <div style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--green); margin-bottom: 0.5rem;">3 R$</div>
+            <a href="https://www.roblox.com/es/game-pass/1784444718/Donacion" target="_blank" class="btn primary" style="width: 100%;"><span data-i18n="donate_btn">Donate</span>&nbsp;3 R$</a>
+          </div>
+          <div class="card" style="padding: 1.5rem; text-align: center;">
+            <div style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--green); margin-bottom: 0.5rem;">10 R$</div>
+            <a href="https://www.roblox.com/es/game-pass/1985534465/thx-for-use" target="_blank" class="btn primary" style="width: 100%;"><span data-i18n="donate_btn">Donate</span>&nbsp;10 R$</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
 
-  function renderPrivacy() {
-    const policy = state.data?.PrivacyPolicy;
-    if (!policy) return;
-
-    const box = (title, items) => `
-      <div class="privacy-box">
-        <h3>${esc(title)}</h3>
-        <ul>${toList(items).map((item) => `<li>${esc(String(item).trim())}</li>`).join('')}</ul>
-      </div>`;
-
-    $('privacyGrid').innerHTML =
-      box(t('privacy_hide'), policy.WhatWeHide) +
-      box(t('privacy_allowed'), policy.Allowed) +
-      box(t('privacy_denied'), policy.NotAllowed);
-  }
-
-  function openScriptDetail(id) {
-    const script = toList(state.data?.Scripts).find((s) => String(s.Id) === String(id));
-    if (!script) return;
-    state.currentScript = script;
-
-    const img = $('detailImg');
-    img.src = safeUrl(script.Thumbnail, FALLBACK_THUMB);
-    img.alt = script.Title || '';
-
-    $('detailGameName').textContent = script.GameName || t('unknown_game');
-    $('detailTitle').textContent = script.Title || '';
-    $('detailAuthor').innerHTML = `${esc(t('by'))} ${esc(script.Uploader)} ${verifiedBadge(script)}`;
-    $('detailDesc').textContent = script.Description || '';
-
-    const play = $('detailPlayBtn');
-    const gameUrl = safeUrl(script.GameUrl);
-    play.hidden = !gameUrl;
-    play.href = gameUrl || '#';
-    play.rel = 'noopener noreferrer';
-
-    const note = $('detailNote');
-    note.hidden = !script.CreatorComment;
-    note.textContent = script.CreatorComment ? `"${script.CreatorComment}" — ${script.Uploader}` : '';
-
-    resetCopyButton();
-    navigate('detail');
-  }
-
-  let copyTimer = null;
-
-  function legacyCopy(text) {
-    const area = document.createElement('textarea');
-    area.value = text;
-    area.setAttribute('readonly', '');
-    area.style.cssText = 'position:fixed;top:-9999px;opacity:0;';
-    document.body.appendChild(area);
-    area.select();
-    const ok = document.execCommand('copy');
-    area.remove();
-    if (!ok) throw new Error('execCommand("copy") was rejected');
-  }
-
-  async function writeClipboard(text) {
-    if (navigator.clipboard && window.isSecureContext) {
-      await navigator.clipboard.writeText(text);
-    } else {
-      legacyCopy(text);
-    }
-  }
-
-  function resetCopyButton() {
-    clearTimeout(copyTimer);
-    $('copyBtn').classList.remove('copied');
-    $('copyLabel').textContent = t('copy_btn');
-  }
-
-  async function copyScript() {
-    const code = state.currentScript?.ScriptCode;
-    if (!code) return;
-    try {
-      await writeClipboard(code);
-      $('copyBtn').classList.add('copied');
-      $('copyLabel').textContent = t('copied_btn');
-      clearTimeout(copyTimer);
-      copyTimer = setTimeout(resetCopyButton, 2000);
-    } catch (err) {
-      console.error('Could not copy the script:', err);
-    }
-  }
-
-  function navigate(viewId) {
-    const view = $(`view-${viewId}`);
-    if (!view) return;
-    document.querySelectorAll('.view-section').forEach((v) => v.classList.toggle('active', v === view));
-    const navTarget = viewId === 'detail' ? 'catalog' : viewId;
-    document.querySelectorAll('.nav-item').forEach((n) => n.classList.toggle('active', n.dataset.nav === navTarget));
-    $('viewContainer').scrollTop = 0;
-  }
-
-  document.addEventListener('click', (e) => {
-    const nav = e.target.closest('[data-nav]');
-    if (nav) { navigate(nav.dataset.nav); return; }
-    
-    const card = e.target.closest('.card[data-id]');
-    if (card) { openScriptDetail(card.dataset.id); return; }
-    
-    const action = e.target.closest('[data-action]');
-    if (action?.dataset.action === 'copy') copyScript();
-    if (action?.dataset.action === 'retry') loadData();
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches?.('.card[data-id]')) {
-      e.preventDefault();
-      openScriptDetail(e.target.dataset.id);
-    }
-  });
-
-  document.addEventListener('error', (e) => {
-    const img = e.target;
-    if (img.tagName === 'IMG' && img.classList.contains('card-image') && img.src !== FALLBACK_THUMB) {
-      img.src = FALLBACK_THUMB;
-    }
-  }, true);
-
-  async function loadData() {
-    showStatus('loading_text');
-    try {
-      const response = await fetch(LUA_URL, { cache: 'no-cache' });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      state.data = parseLua(await response.text());
-      renderCatalog();
-      renderPrivacy();
-    } catch (err) {
-      console.error('DataStorage.lua:', err);
-      showStatus(err instanceof SyntaxError ? 'error_parse' : 'error_fetch', { error: true, retry: true });
-    }
-  }
-
-  applyTranslations();
-  loadData();
-})();
+<script src="./caller.js" defer></script>
+</body>
+</html>
