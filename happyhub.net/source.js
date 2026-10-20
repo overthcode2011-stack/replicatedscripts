@@ -2,7 +2,7 @@
   'use strict';
   console.log("replicatedscripts.net: caller.js loaded successfully.");
 
-  const LUA_URL = 'https://raw.githubusercontent.com/overthcode2011-stack/replicatedscripts/refs/heads/happyhub.net/happyhub.net/DataStorage.lua';
+  const LUA_URL = 'https://raw.githubusercontent.com/overthcode2011-stack/replicatedscripts/refs/heads/happyhub.net/happyhub.net/storage.lua';
   const FALLBACK_THUMB = 'https://tr.rbxcdn.com/180DAY-85562c0efb45221628a4c872e35cf587/420/420/Decal/Webp/noFilter';
 
   const LUA_TOKEN = new RegExp([
