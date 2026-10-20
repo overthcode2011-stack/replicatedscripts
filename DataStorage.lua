@@ -20,7 +20,7 @@ local WebStorage = {
             Uploader = "replicated man",
             Verified = true,
             CreatorComment = "Tested on latest patch. Works flawlessly.",
-            ScriptCode = "loadstring(game:HttpGet("https://raw.githubusercontent.com/overthcode2011-stack/HHB/refs/heads/main/main.lua"))()",
+            ScriptCode = "loadstring(game:HttpGet('https://raw.githubusercontent.com/overthcode2011-stack/HHB/refs/heads/main/main.lua'))()",
             IsOfficial = true,
             GameUrl = "https://www.roblox.com/games/142823291",
         },
