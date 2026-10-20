@@ -1,4 +1,5 @@
-
+-- replicatedscripts.net | storage.lua
+-- Database consumed by source.js. Keep the table structure intact.
 
 local WebStorage = {
     SiteConfig = {
@@ -22,6 +23,10 @@ local WebStorage = {
             ScriptCode = [==[loadstring(game:HttpGet('https://raw.githubusercontent.com/overthcode2011-stack/HHB/refs/heads/main/main.lua'))()]==],
             IsOfficial = true,
             GameUrl = "https://www.roblox.com/games/142823291",
+            
+         
+            OpenSource = true,
+            MobileFriendly = true,
         },
     },
 
