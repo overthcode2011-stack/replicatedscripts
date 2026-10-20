@@ -100,7 +100,7 @@
   .script-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
   .card { padding: 0; border: 1px solid var(--green-line); background: linear-gradient(180deg, var(--green-soft), transparent 70%); transition: 0.3s; display: flex; flex-direction: column; overflow: hidden; border-radius: 6px; cursor: pointer; }
   .card:hover { border-color: var(--green); transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0, 230, 118, 0.1); }
-  .card-image { width: 100%; height: 180px; object-fit: cover; border-bottom: 1px solid var(--green-line); }
+  .card-image { width: 100%; height: 180px; object-fit: cover; border-bottom: 1px solid var(--green-line); background: #111; }
   .card-content { padding: 1.2rem; flex: 1; display: flex; flex-direction: column; }
   .game-title { font-family: var(--font-display); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); margin-bottom: 0.3rem; font-weight: 600; }
   .script-name { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; color: #fff; margin-bottom: 0.5rem; line-height: 1.3; }
@@ -133,16 +133,10 @@
   .privacy-box h3 { font-family: var(--font-display); font-size: 0.85rem; color: var(--green); margin-bottom: 0.8rem; text-transform: uppercase; }
   .method { border: 1px solid var(--green-line); border-radius: 4px; padding: 1.2rem; margin: 1rem 0; background: rgba(0, 230, 118, 0.02); }
   .method-name { font-family: var(--font-mono); font-size: 0.88rem; color: var(--green-bright); font-weight: 600; display: block; margin-bottom: 0.5rem; }
-  .callout { padding: 1rem 1.2rem; border-radius: 4px; margin: 1rem 0; font-size: 0.9rem; line-height: 1.6; border-left: 3px solid; display: flex; gap: 0.75rem; align-items: flex-start; }
-  .callout svg { width: 18px; height: 18px; flex-shrink: 0; margin-top: 0.15rem; }
-  .callout-tip { background: rgba(0, 230, 118, 0.06); border-color: var(--green); color: rgba(255,255,255,0.75); }
-  .callout-tip svg { stroke: var(--green); fill: none; stroke-width: 2; }
   .entry { border: 1px solid var(--green-line); border-radius: 4px; padding: 1.2rem; margin: 1rem 0; background: rgba(0, 230, 118, 0.02); }
   .entry-head { display: flex; gap: 0.75rem; margin-bottom: 0.8rem; align-items: center; }
   .tag { font-family: var(--font-mono); font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 3px; display: inline-flex; align-items: center; gap: 0.3rem; }
-  .tag svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; }
-  .tag-feature { background: var(--green); color: #001b0d; } .tag-feature svg { fill: currentColor; stroke: none; }
-  .tag-fix { background: #ff6b6b; color: #1a0000; }
+  .tag-feature { background: var(--green); color: #001b0d; }
   .entry-title { font-family: var(--font-display); font-size: 0.95rem; font-weight: 600; color: #fff; }
 
   @media (max-width: 900px) {
@@ -217,7 +211,9 @@
         <h1 class="page-title" data-i18n="catalog_title">Happy Hub Scripts</h1>
         <p class="lead" data-i18n="catalog_desc">Only scripts maintained and verified by the Happy Hub team.</p>
         
-        <div class="script-grid" id="scriptGrid"></div>
+        <div class="script-grid" id="scriptGrid">
+          <p style="color: var(--muted);" id="loadingText">Loading scripts from DataStorage...</p>
+        </div>
         
         <div style="margin-top: 4rem; border-top: 1px solid var(--green-line); padding-top: 2rem;">
           <p class="eyebrow" data-i18n="policies_eyebrow">policies</p>
@@ -302,16 +298,90 @@
         <h1 class="page-title" data-i18n="api_title">API Reference</h1>
         <p class="lead" data-i18n="api_desc">Everything you can build with the Happy Hub library.</p>
         
-        <h3 class="section-title" data-i18n="api_h1">Global Configuration</h3>
-        <p data-i18n-html="api_p1">A single table, <code>API.Config</code>, that controls game compatibility and the key system.</p>
+        <h3 class="section-title">Global Configuration</h3>
+        <p>A single table, <code>API.Config</code>, that controls game compatibility and the key system.</p>
         <div class="method">
           <span class="method-name">API.Config.KeySystem</span>
           <ul>
-            <li data-i18n-html="api_l1"><code>Enabled</code> — disables the entire key flow when <code>false</code>.</li>
-            <li data-i18n-html="api_l2"><code>Provider</code> — display name shown in the auth window.</li>
-            <li data-i18n-html="api_l3"><code>URL</code> — link copied to clipboard when the user clicks Get Key.</li>
-            <li data-i18n-html="api_l4"><code>ExpectedKey</code> — exact key the user must paste to unlock the hub.</li>
+            <li><code>Enabled</code> — disables the entire key flow when <code>false</code>.</li>
+            <li><code>Provider</code> — display name shown in the auth window.</li>
+            <li><code>URL</code> — link copied to clipboard when the user clicks Get Key.</li>
+            <li><code>ExpectedKey</code> — exact key the user must paste to unlock the hub.</li>
           </ul>
+        </div>
+
+        <h3 class="section-title">Root API</h3>
+        <div class="method">
+          <span class="method-name">API:CreateWindow(title, subtitle)</span>
+          <p>Creates the main window and returns the window object used to build everything else.</p>
+        </div>
+        <div class="method">
+          <span class="method-name">API:Notify(text, duration)</span>
+          <p>Shows an animated toast notification in the top-right corner.</p>
+        </div>
+        <div class="method">
+          <span class="method-name">API:SetTheme(name) · API:GetTheme() · API:GetThemes()</span>
+          <p>Manage the active theme at runtime.</p>
+        </div>
+        <div class="method">
+          <span class="method-name">API:GetControl(name) · API:GetControlsByName(name)</span>
+          <p>Look up registered controls by name.</p>
+        </div>
+
+        <h3 class="section-title">Window Methods</h3>
+        <div class="method">
+          <span class="method-name">window:CreateTab(name, iconId)</span>
+          <p>Creates a sidebar tab and returns the tab object.</p>
+        </div>
+        <div class="method">
+          <span class="method-name">window:CreateLabel(tab, text)</span>
+          <p>Accent-colored section header with a typewriter animation.</p>
+        </div>
+        <div class="method">
+          <span class="method-name">window:CreateParagraph(tab, text)</span>
+          <p>Informational paragraph with automatic word-wrap.</p>
+        </div>
+        <div class="method">
+          <span class="method-name">window:CreateImageCard(tab, config)</span>
+          <p>Card with image, title, subtitle and description.</p>
+        </div>
+        <div class="method">
+          <span class="method-name">window:CreateButton(tab, text, callback, tooltip)</span>
+          <p>Clickable button with optional tooltip.</p>
+        </div>
+        <div class="method">
+          <span class="method-name">window:CreateToggle(tab, text, default, callback, desc, tooltip)</span>
+          <p>Pill toggle with a check icon (ON) or X icon (OFF) inside the knob.</p>
+        </div>
+        <div class="method">
+          <span class="method-name">window:CreateSlider(tab, text, min, max, default, callback, tooltip, forceInt)</span>
+          <p>Slider row with auto int/float detection and live value display.</p>
+        </div>
+        <div class="method">
+          <span class="method-name">window:CreateDropdown(tab, text, options, default, callback, tooltip)</span>
+          <p>Single-select dropdown. The list always opens downward.</p>
+        </div>
+
+        <h3 class="section-title">Config System</h3>
+        <div class="method">
+          <span class="method-name">window:SetConfigSnapshot(fn) · SetConfigApply(fn)</span>
+          <p>Register functions that return the current settings table and apply loaded settings.</p>
+        </div>
+        <div class="method">
+          <span class="method-name">window:BuildConfigPage()</span>
+          <p>Creates a built-in Settings tab with theme dropdown, storage path TextBoxes, config save/load/delete/refresh buttons, reset-to-defaults, and a Delete UI button.</p>
+        </div>
+
+        <h3 class="section-title">Mobile Helpers</h3>
+        <div class="method">
+          <span class="method-name">window:AddMobileButton(config) · ClearMobileButtons()</span>
+          <p>Adds floating buttons that only appear on mobile (max 3).</p>
+        </div>
+
+        <h3 class="section-title">Visibility & Teardown</h3>
+        <div class="method">
+          <span class="method-name">window:HideUI() · ShowUI() · ToggleUI() · Destroy()</span>
+          <p>Control whether the hub is visible. <code>Destroy</code> disconnects every tracked connection and removes the ScreenGui.</p>
         </div>
       </section>
 
@@ -364,11 +434,6 @@
       tag_feature: "feature", wn_e1_title: "API.Config — global configuration table", wn_e1_desc: "A single table that controls game compatibility and the key system.",
       
       api_eyebrow: "documentation", api_title: "API Reference", api_desc: "Everything you can build with the Happy Hub library.",
-      api_h1: "Global Configuration", api_p1: "A single table, <code>API.Config</code>, that controls game compatibility and the key system.",
-      api_l1: "<code>Enabled</code> — disables the entire key flow when <code>false</code>.",
-      api_l2: "<code>Provider</code> — display name shown in the auth window.",
-      api_l3: "<code>URL</code> — link copied to clipboard when the user clicks Get Key.",
-      api_l4: "<code>ExpectedKey</code> — exact key the user must paste to unlock the hub.",
       
       donate_eyebrow: "support", donate_title: "Donate", donate_desc: "Optional. Everything here stays free either way.", donate_btn: "Donate"
     },
@@ -398,11 +463,6 @@
       tag_feature: "novedad", wn_e1_title: "API.Config — tabla de configuración global", wn_e1_desc: "Una única tabla que controla la compatibilidad de juego y el sistema de claves.",
       
       api_eyebrow: "documentación", api_title: "Referencia API", api_desc: "Todo lo que puedes construir con la librería de Happy Hub.",
-      api_h1: "Configuración Global", api_p1: "Una única tabla, <code>API.Config</code>, que controla la compatibilidad de juego y el sistema de claves.",
-      api_l1: "<code>Enabled</code> — desactiva todo el flujo de clave cuando es <code>false</code>.",
-      api_l2: "<code>Provider</code> — nombre visible en la ventana de auth.",
-      api_l3: "<code>URL</code> — enlace copiado al portapapeles al clickear Get Key.",
-      api_l4: "<code>ExpectedKey</code> — clave exacta que el usuario debe pegar para desbloquear el hub.",
       
       donate_eyebrow: "soporte", donate_title: "Donar", donate_desc: "Opcional. Todo aquí sigue siendo gratis de todas formas.", donate_btn: "Donar"
     }
@@ -412,44 +472,8 @@
   const currentLang = translations[userLang] ? userLang : 'en';
   const t = (key) => translations[currentLang][key] || translations['en'][key];
 
-  const WebStorage = {
-    SiteConfig: {
-      VerifiedBadgeUrl: "https://tr.rbxcdn.com/180DAY-87e64343dde2f4088286444b269310ff/420/420/Decal/Webp/noFilter",
-      PrivacyPolicy: {
-        WhatWeHide: ["HWID (Hardware ID)", "IP Address", "Executor Information"],
-        Allowed: ["Use the hub in any supported game.", "Save local configurations.", "Create custom scripts."],
-        NotAllowed: ["Sell or redistribute access keys.", "Reverse engineer the system.", "Harm servers or players."]
-      }
-    },
-    Scripts: [
-      {
-        Id: "1",
-        GameName: "Murder Mystery 2",
-        Title: "Happy Hub by replicated man fully free",
-        Description: "This script is keyless and fully free! enjoy it.",
-        Thumbnail: "https://tr.rbxcdn.com/180DAY-b24021a5b4f2d78048587b78583bb2e7/420/420/Image/Webp/noFilter",
-        Uploader: "replicated man",
-        Verified: true,
-        CreatorComment: "Tested on latest patch. Works flawlessly.",
-        ScriptCode: "loadstring(game:HttpGet('https://raw.githubusercontent.com/your-repo/main/happyhub.lua'))()",
-        GameUrl: "https://www.roblox.com/games/142823291"
-      },
-      {
-        Id: "2",
-        GameName: "Blox Fruits",
-        Title: "Cheese Hub [BETA]",
-        Description: "Auto Farm, Sea Events & Items (Keyless)",
-        Thumbnail: "https://tr.rbxcdn.com/180DAY-85562c0efb45221628a4c872e35cf587/420/420/Decal/Webp/noFilter",
-        Uploader: "ODΣCODΣ",
-        Verified: true,
-        CreatorComment: "Beta build. Expect some bugs with fruit spawning.",
-        ScriptCode: "loadstring(game:HttpGet('https://your-link-to-cheese-hub.lua'))()",
-        GameUrl: "https://www.roblox.com/games/2753915549"
-      }
-    ]
-  };
-
   let currentScriptCode = "";
+  let WebStorage = null;
 
   function applyTranslations() {
     document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -463,18 +487,61 @@
     });
   }
 
-  function initApp() {
-    applyTranslations();
+  // Parser tolerante de Lua a JSON para el DataStorage
+  function parseLuaToJSON(luaText) {
+    let clean = luaText
+      .replace(/--.*$/gm, '') // Eliminar comentarios
+      .trim()
+      .replace(/^local\s+WebStorage\s*=\s*/, '') // Quitar cabecera
+      .replace(/return\s+WebStorage\s*;?$/, ''); // Quitar return
 
+    // Insertar comas faltantes entre pares clave-valor (ej. IsOfficial = true GameUrl = "...")
+    clean = clean.replace(/(\w+)\s*=\s*([^,{}\n]+?)\s+(\w+)\s*=/g, '$1 = $2, $3 =');
+
+    // Poner comillas a las claves
+    clean = clean.replace(/([{,]\s*)([a-zA-Z_][a-zA-Z0-9_]*)\s*=/g, '$1"$2":');
+
+    try {
+      return JSON.parse(clean);
+    } catch (e) {
+      console.error("Error parsing Lua to JSON:", e);
+      console.log("Cleaned text:", clean);
+      return null;
+    }
+  }
+
+  async function fetchDataStorage() {
+    const url = "https://raw.githubusercontent.com/overthcode2011-stack/replicatedscripts/refs/heads/happyhub.net/DataStorage.lua";
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error("Network response was not ok");
+      const text = await response.text();
+      WebStorage = parseLuaToJSON(text);
+      
+      if (WebStorage) {
+        renderCatalog();
+        renderPrivacy();
+      } else {
+        document.getElementById('loadingText').innerText = "Error parsing DataStorage.lua. Check syntax.";
+      }
+    } catch (error) {
+      console.error("Failed to fetch DataStorage:", error);
+      document.getElementById('loadingText').innerText = "Failed to load DataStorage.lua.";
+    }
+  }
+
+  function renderCatalog() {
     const scriptGrid = document.getElementById('scriptGrid');
     scriptGrid.innerHTML = '';
     
+    const badgeUrl = WebStorage.SiteConfig.VerifiedBadgeUrl;
+
     WebStorage.Scripts.forEach(script => {
-      const verifiedHTML = script.Verified ? `<img src="${WebStorage.SiteConfig.VerifiedBadgeUrl}" class="verified-badge" title="Verified">` : '';
+      const verifiedHTML = script.Verified ? `<img src="${badgeUrl}" class="verified-badge" title="Verified" alt="Verified">` : '';
       
       scriptGrid.innerHTML += `
         <div class="card" onclick="openScriptDetail('${script.Id}')">
-          <img src="${script.Thumbnail}" class="card-image" alt="${script.Title}">
+          <img src="${script.Thumbnail}" class="card-image" alt="${script.Title}" loading="lazy" onerror="this.src='https://tr.rbxcdn.com/180DAY-85562c0efb45221628a4c872e35cf587/420/420/Decal/Webp/noFilter'">
           <div class="card-content">
             <div class="game-title">${script.GameName}</div>
             <div class="script-name">${script.Title}</div>
@@ -486,9 +553,11 @@
         </div>
       `;
     });
+  }
 
+  function renderPrivacy() {
     const privacyGrid = document.getElementById('privacyGrid');
-    const policy = WebStorage.SiteConfig.PrivacyPolicy;
+    const policy = WebStorage.PrivacyPolicy;
     
     const createList = (title, items) => `
       <div class="privacy-box">
@@ -504,6 +573,7 @@
   }
 
   window.openScriptDetail = function(id) {
+    if (!WebStorage) return;
     const script = WebStorage.Scripts.find(s => s.Id === id);
     if (!script) return;
 
@@ -559,7 +629,9 @@
     document.getElementById('viewContainer').scrollTop = 0;
   }
 
-  initApp();
+  // Iniciar
+  applyTranslations();
+  fetchDataStorage();
 </script>
 
 </body>
