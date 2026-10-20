@@ -1,21 +1,22 @@
 (() => {
   'use strict';
+  console.log("Happy Hub: caller.js loaded successfully.");
 
   const LUA_URL = 'https://raw.githubusercontent.com/overthcode2011-stack/replicatedscripts/refs/heads/happyhub.net/DataStorage.lua';
   const FALLBACK_THUMB = 'https://tr.rbxcdn.com/180DAY-85562c0efb45221628a4c872e35cf587/420/420/Decal/Webp/noFilter';
 
-
+  
 
   const LUA_TOKEN = new RegExp([
-    '\\s+',                                   
-    '--\\[(=*)\\[[\\s\\S]*?\\]\\1\\]',        
-    '--[^\\n]*',                              
+    '\\s+',                                    
+    '--\\[(=*)\\[[\\s\\S]*?\\]\\1\\]',         
+    '--[^\\n]*',                               
     '\\[(=*)\\[([\\s\\S]*?)\\]\\2\\]',         
     '"((?:[^"\\\\\\n]|\\\\[\\s\\S])*)"',       
-    "'((?:[^'\\\\\\n]|\\\\[\\s\\S])*)'",     
+    "'((?:[^'\\\\\\n]|\\\\[\\s\\S])*)'",       
     '(-?(?:0[xX][0-9a-fA-F]+|\\d+\\.?\\d*(?:[eE][+-]?\\d+)?|\\.\\d+))', 
     '([A-Za-z_][A-Za-z0-9_]*)',                
-    '(\\.\\.|[{}\\[\\]=,;])'                 
+    '(\\.\\.|[{}\\[\\]=,;])'                   
   ].join('|'), 'y');
 
   const LUA_ESCAPES = { n: '\n', t: '\t', r: '\r', a: '\x07', b: '\b', f: '\f', v: '\v' };
@@ -107,12 +108,11 @@
         } else {
           list.push(parseValue());
         }
-       
         if (tokens[pos]?.t === ',' || tokens[pos]?.t === ';') pos++;
       }
 
       if (pos >= tokens.length) {
-        console.warn('DataStorage.lua: tabla sin cerrar, se cierra automaticamente al final del archivo.');
+        console.warn('DataStorage.lua: unclosed table, auto-closing at end of file.');
       } else {
         pos++;
       }
@@ -125,11 +125,8 @@
     return parseTable();
   }
 
-  /* ------------------------------------------------------------------ *
-   *  Internacionalizacion (EN / ES)
-   *  Los terminos de PROTECTED se inyectan con {clave} y nunca se
-   *  traducen. Los datos del .lua (nombres de scripts) tampoco.
-   * ------------------------------------------------------------------ */
+  
+   
 
   const PROTECTED = { brand: 'Happy Hub', hub: 'Script Hub', copy: 'Copy Script' };
 
@@ -202,6 +199,7 @@
   }
 
   
+
   const $ = (id) => document.getElementById(id);
   const state = { data: null, currentScript: null };
 
@@ -292,6 +290,7 @@
   }
 
   
+
   let copyTimer = null;
 
   function legacyCopy(text) {
@@ -334,7 +333,7 @@
     }
   }
 
-  
+
 
   function navigate(viewId) {
     const view = $(`view-${viewId}`);
@@ -348,8 +347,10 @@
   document.addEventListener('click', (e) => {
     const nav = e.target.closest('[data-nav]');
     if (nav) { navigate(nav.dataset.nav); return; }
+    
     const card = e.target.closest('.card[data-id]');
     if (card) { openScriptDetail(card.dataset.id); return; }
+    
     const action = e.target.closest('[data-action]');
     if (action?.dataset.action === 'copy') copyScript();
     if (action?.dataset.action === 'retry') loadData();
@@ -362,7 +363,6 @@
     }
   });
 
-  
   document.addEventListener('error', (e) => {
     const img = e.target;
     if (img.tagName === 'IMG' && img.classList.contains('card-image') && img.src !== FALLBACK_THUMB) {
@@ -370,8 +370,7 @@
     }
   }, true);
 
-
-
+  
   async function loadData() {
     showStatus('loading_text');
     try {
@@ -386,6 +385,7 @@
     }
   }
 
+  // Start application
   applyTranslations();
   loadData();
 })();
