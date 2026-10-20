@@ -1,6 +1,6 @@
--- WebStorage.lua
+
 local WebStorage = {
-    -- Configuración global
+    
     SiteConfig = {
         Version = "v11.7.0",
         Theme = "OrangeDark",
@@ -8,49 +8,33 @@ local WebStorage = {
         VerifiedBadgeUrl = "https://tr.rbxcdn.com/180DAY-87e64343dde2f4088286444b269310ff/420/420/Decal/Webp/noFilter",
     },
 
-    -- Lista de scripts oficiales
+   
     Scripts = {
         {
-            Id = "script_1",
-            Title = "NINJA OBBY ESCAPE",
+            Id = "1",
+            Title = "[ 🎃 ] Happy Hub by replicated man fully free",
             Name = "Auto Farm, Auto Equip Best Ninja",
-            Description = "KEYLESS | Auto Farm | Auto Equip | Bypass Anti-Cheat",
-            Thumbnail = "https://tr.rbxcdn.com/180DAY-b24021a5b4f2d78048587b78583bb2e7/420/420/Image/Webp/noFilter",
+            Description = "Keyless · Auto Farm · Esp · fully free · xeno supported",
+            Thumbnail = "https://www.rblxscripts.net/_next/image?url=https%3A%2F%2Fcdn.rblxscripts.net%2Fthumbnails%2FFfCAJLZMaS8rNX8HHQQ7zdWfCYFGaKO2_1792456751969_thumb.jpg&w=1080&q=75",
             Uploader = "replicated man",
             Verified = true,
             CreatorComment = "Tested on latest patch. Works flawlessly.",
             IsOfficial = true
         },
-        {
-            Id = "script_2",
-            Title = "BLOX FRUITS",
-            Name = "Cheese Hub [BETA]",
-            Description = "Auto Farm, Sea Events & Items (Keyless)",
-            Thumbnail = "https://tr.rbxcdn.com/180DAY-85562c0efb45221628a4c872e35cf587/420/420/Decal/Webp/noFilter",
-            Uploader = "ODΣCODΣ",
-            Verified = true,
-            CreatorComment = "Beta build. Expect some bugs with fruit spawning.",
-            IsOfficial = true
-        }
-    },
 
-    -- Política de Privacidad
     PrivacyPolicy = {
         WhatWeHide = {
-            "HWID (Hardware ID)",
-            "Dirección IP",
-            "Información del Executor",
-            "Registros de teclas (Keylogs)"
+            "UNC 60% ",
+            "Commands admin if you use our api",
         },
         Allowed = {
-            "Usar el hub en cualquier juego soportado.",
-            "Guardar configuraciones locales en tu executor.",
-            "Crear scripts personalizados usando nuestra API."
+            "Use the hub in any supported game.",
+            "Save local configurations to your executor.",
+            "Create custom scripts using our API."
         },
         NotAllowed = {
-            "Vender o redistribuir keys de acceso.",
-            "Intentar hacer reverse engineering del sistema de autenticación.",
-            "Usar el hub para dañar servidores o a otros jugadores."
+            "Selling an existing script hub that uses our API",
+            "Using our API to create fake script hubs that contain tools for account theft."
         }
     }
 }
