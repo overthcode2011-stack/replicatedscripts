@@ -1,14 +1,14 @@
 -- WebStorage.lua
 local WebStorage = {
-    -- Configuración global del sitio
+    -- Configuración global
     SiteConfig = {
         Version = "v11.7.0",
-        Theme = "OrangeDark", -- Puede ser "GreenDark", "BlueDark", etc.
-        HideHWID = true,
-        HideIP = true,
+        Theme = "OrangeDark",
+        ShowVerifiedBadge = true,
+        VerifiedBadgeUrl = "https://tr.rbxcdn.com/180DAY-87e64343dde2f4088286444b269310ff/420/420/Decal/Webp/noFilter",
     },
 
-    -- Lista de scripts (Tarjetas)
+    -- Lista de scripts oficiales
     Scripts = {
         {
             Id = "script_1",
@@ -19,8 +19,7 @@ local WebStorage = {
             Uploader = "replicated man",
             Verified = true,
             CreatorComment = "Tested on latest patch. Works flawlessly.",
-            IsOfficial = true,
-            Stats = { Views = "15K", Likes = 420, Date = "4h ago" }
+            IsOfficial = true
         },
         {
             Id = "script_2",
@@ -31,12 +30,11 @@ local WebStorage = {
             Uploader = "ODΣCODΣ",
             Verified = true,
             CreatorComment = "Beta build. Expect some bugs with fruit spawning.",
-            IsOfficial = false,
-            Stats = { Views = "39K", Likes = 890, Date = "8h ago" }
+            IsOfficial = true
         }
     },
 
-    -- Política de privacidad y términos
+    -- Política de Privacidad
     PrivacyPolicy = {
         WhatWeHide = {
             "HWID (Hardware ID)",
