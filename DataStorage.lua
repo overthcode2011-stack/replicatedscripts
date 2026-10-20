@@ -12,6 +12,7 @@ local WebStorage = {
     Scripts = {
         {
             Id = "1",
+            GameName = "Murder Mystery 2",
             Title = "[ 🎃 ] Happy Hub by replicated man fully free",
             Name = "Auto Farm, Auto Equip Best Ninja",
             Description = "Keyless · Auto Farm · Esp · fully free · xeno supported",
@@ -19,7 +20,9 @@ local WebStorage = {
             Uploader = "replicated man",
             Verified = true,
             CreatorComment = "Tested on latest patch. Works flawlessly.",
+            ScriptCode = "loadstring(game:HttpGet("https://raw.githubusercontent.com/overthcode2011-stack/HHB/refs/heads/main/main.lua"))()",
             IsOfficial = true
+            GameUrl = "https://www.roblox.com/games/142823291"
         },
 
     PrivacyPolicy = {
