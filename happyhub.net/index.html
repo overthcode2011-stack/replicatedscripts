@@ -10,9 +10,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  /* =========================================================
-     BASE STYLES & VARIABLES
-     ========================================================= */
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   :root {
     --bg: #000000; --green: #00e676; --green-bright: #00ff88;
@@ -30,7 +27,6 @@
     display: flex; overflow-x: hidden; -webkit-font-smoothing: antialiased;
   }
 
-  /* Background grid and glow */
   body::before {
     content: ''; position: fixed; inset: 0;
     background: radial-gradient(circle at 50% -10%, rgba(0, 230, 118, 0.13), transparent 55%),
@@ -47,18 +43,13 @@
     pointer-events: none; z-index: 0;
   }
 
-  /* Custom Scrollbar */
   * { scrollbar-width: thin; scrollbar-color: rgba(0, 230, 118, 0.55) rgba(0, 230, 118, 0.04); }
   ::-webkit-scrollbar { width: 9px; height: 9px; }
   ::-webkit-scrollbar-track { background: rgba(0, 230, 118, 0.04); border-left: 1px solid rgba(0, 230, 118, 0.08); }
   ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, rgba(0, 230, 118, 0.7), rgba(0, 230, 118, 0.35)); border-radius: 6px; border: 2px solid #000; }
 
-  /* =========================================================
-     LAYOUT
-     ========================================================= */
   .app-container { display: flex; width: 100%; height: 100vh; overflow: hidden; position: relative; z-index: 2; }
 
-  /* Sidebar */
   .sidebar {
     width: 260px; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(10px);
     border-right: 1px solid var(--green-line); padding: 2rem 0;
@@ -74,7 +65,6 @@
   .nav-item svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
   .nav-item:hover, .nav-item.active { color: var(--green); background: var(--green-soft); border-left-color: var(--green); }
 
-  /* Main Content */
   .main-wrapper { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
   .topbar { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; border-bottom: 1px solid var(--green-line); background: rgba(0,0,0,0.4); backdrop-filter: blur(10px); z-index: 5; }
   .search-bar { background: rgba(255,255,255,0.03); border: 1px solid var(--green-line); padding: 0.6rem 1rem; border-radius: 4px; color: #fff; font-family: var(--font-body); width: 300px; outline: none; }
@@ -86,7 +76,6 @@
   .view-section.active { display: block; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* Typography */
   .eyebrow { font-family: var(--font-display); font-size: 0.68rem; letter-spacing: 0.28em; text-transform: lowercase; color: var(--green); margin-bottom: 0.5rem; font-weight: 600; }
   .page-title { font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; color: #fff; margin-bottom: 0.8rem; line-height: 1.1; }
   .lead { font-size: 1rem; font-weight: 300; line-height: 1.7; color: var(--muted); margin-bottom: 2rem; }
@@ -103,15 +92,11 @@
   pre { background: #060a08; border: 1px solid var(--green-line); border-left: 2px solid var(--green); padding: 1.2rem; overflow-x: auto; font-size: 0.82rem; line-height: 1.7; color: #cfe6d6; border-radius: 4px; margin: 1rem 0 1.5rem; }
   pre code { background: none; padding: 0; color: inherit; }
 
-  /* Buttons */
   .btn { font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: lowercase; padding: 0.9rem 1.8rem; background: transparent; color: #fff; border: 1px solid var(--green-line); cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; border-radius: 4px; }
   .btn:hover { border-color: var(--green); box-shadow: 0 0 15px rgba(0, 230, 118, 0.2); }
   .btn.primary { background: var(--green); color: #001b0d; border-color: var(--green); }
   .btn.primary:hover { background: var(--green-bright); box-shadow: 0 0 20px rgba(0, 255, 136, 0.4); }
 
-  /* =========================================================
-     SCRIPTS CATALOG & CARDS
-     ========================================================= */
   .script-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
   .card { padding: 0; border: 1px solid var(--green-line); background: linear-gradient(180deg, var(--green-soft), transparent 70%); transition: 0.3s; display: flex; flex-direction: column; overflow: hidden; border-radius: 6px; cursor: pointer; }
   .card:hover { border-color: var(--green); transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0, 230, 118, 0.1); }
@@ -124,9 +109,6 @@
   .uploader { display: flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; color: var(--muted); font-weight: 500; }
   .verified-badge { width: 14px; height: 14px; }
 
-  /* =========================================================
-     SCRIPT DETAIL VIEW
-     ========================================================= */
   .detail-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.5rem; }
   @media (max-width: 900px) { .detail-layout { grid-template-columns: 1fr; } }
   .detail-image-wrapper { border: 1px solid var(--green-line); border-radius: 6px; overflow: hidden; background: #000; position: relative; }
@@ -146,9 +128,6 @@
   .detail-desc-text { font-size: 1rem; line-height: 1.8; color: var(--muted); }
   .creator-note { background: rgba(0, 230, 118, 0.05); border-left: 2px solid var(--green); padding: 0.8rem; font-size: 0.85rem; color: rgba(255,255,255,0.7); font-style: italic; margin-bottom: 1rem; border-radius: 0 4px 4px 0; }
 
-  /* =========================================================
-     OTHER SECTIONS (Privacy, API, Features, etc.)
-     ========================================================= */
   .privacy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
   .privacy-box { padding: 1.2rem; border: 1px solid var(--green-line); background: rgba(0,0,0,0.4); border-radius: 4px; }
   .privacy-box h3 { font-family: var(--font-display); font-size: 0.85rem; color: var(--green); margin-bottom: 0.8rem; text-transform: uppercase; }
@@ -182,7 +161,6 @@
 <body>
 
 <div class="app-container">
-  <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sidebar-brand">Happy Hub</div>
     <div class="sidebar-nav">
@@ -213,7 +191,6 @@
     </div>
   </aside>
 
-  <!-- MAIN CONTENT -->
   <main class="main-wrapper">
     <header class="topbar">
       <input type="text" class="search-bar" placeholder="Search current page..." data-i18n-placeholder="search_placeholder" id="searchInput">
@@ -225,7 +202,6 @@
 
     <div class="view-container" id="viewContainer">
       
-      <!-- HOME VIEW -->
       <section class="view-section active" id="view-home">
         <p class="eyebrow" data-i18n="home_eyebrow">private dashboard</p>
         <h1 class="page-title" data-i18n="home_title">Welcome back, User</h1>
@@ -236,7 +212,6 @@
         </div>
       </section>
 
-      <!-- CATALOG VIEW -->
       <section class="view-section" id="view-catalog">
         <p class="eyebrow" data-i18n="catalog_eyebrow">official releases</p>
         <h1 class="page-title" data-i18n="catalog_title">Happy Hub Scripts</h1>
@@ -251,7 +226,6 @@
         </div>
       </section>
 
-      <!-- DETAIL VIEW -->
       <section class="view-section" id="view-detail">
         <button class="btn-back" onclick="navigate('catalog')">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
@@ -290,7 +264,6 @@
         <p class="detail-desc-text" id="detailDesc">Script description goes here.</p>
       </section>
 
-      <!-- FEATURES VIEW -->
       <section class="view-section" id="view-features">
         <p class="eyebrow" data-i18n="features_eyebrow">capabilities</p>
         <h1 class="page-title" data-i18n="features_title">Features</h1>
@@ -310,7 +283,6 @@
         </ul>
       </section>
 
-      <!-- WHAT'S NEW VIEW -->
       <section class="view-section" id="view-whatsnew">
         <p class="eyebrow" data-i18n="wn_eyebrow">changelog</p>
         <h1 class="page-title" data-i18n="wn_title">What's New</h1>
@@ -325,7 +297,6 @@
         </div>
       </section>
 
-      <!-- API VIEW -->
       <section class="view-section" id="view-api">
         <p class="eyebrow" data-i18n="api_eyebrow">documentation</p>
         <h1 class="page-title" data-i18n="api_title">API Reference</h1>
@@ -344,7 +315,6 @@
         </div>
       </section>
 
-      <!-- DONATE VIEW -->
       <section class="view-section" id="view-donate">
         <p class="eyebrow" data-i18n="donate_eyebrow">support</p>
         <h1 class="page-title" data-i18n="donate_title">Donate</h1>
@@ -367,9 +337,6 @@
 </div>
 
 <script>
-  /* =========================================================
-     TRANSLATIONS DICTIONARY (Auto-detects EN / ES)
-     ========================================================= */
   const translations = {
     en: {
       nav_home: "Home", nav_scripts: "Official Scripts", nav_features: "Features", nav_whatsnew: "What's New", nav_api: "API Reference", nav_donate: "Donate",
@@ -441,14 +408,10 @@
     }
   };
 
-  // Detect language
   const userLang = navigator.language.split('-')[0];
   const currentLang = translations[userLang] ? userLang : 'en';
   const t = (key) => translations[currentLang][key] || translations['en'][key];
 
-  /* =========================================================
-     DATA SIMULATION (Loads from your WebStorage logic)
-     ========================================================= */
   const WebStorage = {
     SiteConfig: {
       VerifiedBadgeUrl: "https://tr.rbxcdn.com/180DAY-87e64343dde2f4088286444b269310ff/420/420/Decal/Webp/noFilter",
@@ -488,10 +451,6 @@
 
   let currentScriptCode = "";
 
-  /* =========================================================
-     CORE LOGIC & RENDER
-     ========================================================= */
-  
   function applyTranslations() {
     document.querySelectorAll('[data-i18n]').forEach(el => {
       el.innerText = t(el.getAttribute('data-i18n'));
@@ -507,9 +466,8 @@
   function initApp() {
     applyTranslations();
 
-    // Render Scripts Catalog
     const scriptGrid = document.getElementById('scriptGrid');
-    scriptGrid.innerHTML = ''; // Clear before rendering
+    scriptGrid.innerHTML = '';
     
     WebStorage.Scripts.forEach(script => {
       const verifiedHTML = script.Verified ? `<img src="${WebStorage.SiteConfig.VerifiedBadgeUrl}" class="verified-badge" title="Verified">` : '';
@@ -529,7 +487,6 @@
       `;
     });
 
-    // Render Privacy Policy
     const privacyGrid = document.getElementById('privacyGrid');
     const policy = WebStorage.SiteConfig.PrivacyPolicy;
     
@@ -595,7 +552,6 @@
     
     document.getElementById(`view-${viewId}`).classList.add('active');
     
-    // Highlight correct nav item
     const navTarget = viewId === 'detail' ? 'catalog' : viewId;
     const activeNav = document.querySelector(`.nav-item[data-target="${navTarget}"]`);
     if (activeNav) activeNav.classList.add('active');
@@ -603,7 +559,6 @@
     document.getElementById('viewContainer').scrollTop = 0;
   }
 
-  // Start
   initApp();
 </script>
 
