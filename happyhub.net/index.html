@@ -212,7 +212,7 @@
         <p class="lead" data-i18n="catalog_desc">Only scripts maintained and verified by the Happy Hub team.</p>
         
         <div class="script-grid" id="scriptGrid">
-          <p style="color: var(--muted);" id="loadingText">Loading scripts from DataStorage...</p>
+          <p style="color: var(--green);" id="loadingText">Fetching DataStorage.lua...</p>
         </div>
         
         <div style="margin-top: 4rem; border-top: 1px solid var(--green-line); padding-top: 2rem;">
@@ -487,25 +487,27 @@
     });
   }
 
-  // Parser tolerante de Lua a JSON para el DataStorage
+  // Advanced Lua to JSON Converter (Handles missing commas and string quotes)
   function parseLuaToJSON(luaText) {
-    let clean = luaText
-      .replace(/--.*$/gm, '') // Eliminar comentarios
-      .trim()
-      .replace(/^local\s+WebStorage\s*=\s*/, '') // Quitar cabecera
-      .replace(/return\s+WebStorage\s*;?$/, ''); // Quitar return
-
-    // Insertar comas faltantes entre pares clave-valor (ej. IsOfficial = true GameUrl = "...")
-    clean = clean.replace(/(\w+)\s*=\s*([^,{}\n]+?)\s+(\w+)\s*=/g, '$1 = $2, $3 =');
-
-    // Poner comillas a las claves
-    clean = clean.replace(/([{,]\s*)([a-zA-Z_][a-zA-Z0-9_]*)\s*=/g, '$1"$2":');
-
     try {
-      return JSON.parse(clean);
+      // 1. Remove comments
+      let clean = luaText.replace(/--.*$/gm, '');
+      
+      // 2. Change `local WebStorage =` to `return`
+      clean = clean.replace(/local\s+WebStorage\s*=\s*/, 'return ');
+      
+      // 3. Fix missing commas between properties (e.g., true GameUrl =)
+      clean = clean.replace(/(true|false|"[^"]*"|'[^']*'|\d+(?:\.\d+)?)\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*=/g, '$1, $2 =');
+      
+      // 4. Add quotes around property names
+      clean = clean.replace(/([{,]\s*)([a-zA-Z_][a-zA-Z0-9_]*)\s*=/g, '$1 "$2":');
+
+      // 5. Evaluate the clean string using new Function
+      // This bypasses strict JSON parsing and evaluates the object natively
+      const obj = new Function(clean)();
+      return obj;
     } catch (e) {
-      console.error("Error parsing Lua to JSON:", e);
-      console.log("Cleaned text:", clean);
+      console.error("Lua Parse Error:", e);
       return null;
     }
   }
@@ -514,19 +516,22 @@
     const url = "https://raw.githubusercontent.com/overthcode2011-stack/replicatedscripts/refs/heads/happyhub.net/DataStorage.lua";
     try {
       const response = await fetch(url);
-      if (!response.ok) throw new Error("Network response was not ok");
+      if (!response.ok) throw new Error("Network response error");
       const text = await response.text();
+      
       WebStorage = parseLuaToJSON(text);
       
       if (WebStorage) {
         renderCatalog();
         renderPrivacy();
       } else {
-        document.getElementById('loadingText').innerText = "Error parsing DataStorage.lua. Check syntax.";
+        document.getElementById('loadingText').innerText = "Failed to parse DataStorage.lua.";
+        document.getElementById('loadingText').style.color = "#ff6b6b";
       }
     } catch (error) {
-      console.error("Failed to fetch DataStorage:", error);
-      document.getElementById('loadingText').innerText = "Failed to load DataStorage.lua.";
+      console.error("Fetch error:", error);
+      document.getElementById('loadingText').innerText = "Failed to fetch DataStorage.lua.";
+      document.getElementById('loadingText').style.color = "#ff6b6b";
     }
   }
 
@@ -543,7 +548,7 @@
         <div class="card" onclick="openScriptDetail('${script.Id}')">
           <img src="${script.Thumbnail}" class="card-image" alt="${script.Title}" loading="lazy" onerror="this.src='https://tr.rbxcdn.com/180DAY-85562c0efb45221628a4c872e35cf587/420/420/Decal/Webp/noFilter'">
           <div class="card-content">
-            <div class="game-title">${script.GameName}</div>
+            <div class="game-title">${script.GameName || 'Unknown Game'}</div>
             <div class="script-name">${script.Title}</div>
             <div class="script-desc">${script.Description}</div>
             <div class="card-footer">
@@ -557,6 +562,7 @@
 
   function renderPrivacy() {
     const privacyGrid = document.getElementById('privacyGrid');
+    if (!WebStorage.PrivacyPolicy) return;
     const policy = WebStorage.PrivacyPolicy;
     
     const createList = (title, items) => `
@@ -580,11 +586,11 @@
     currentScriptCode = script.ScriptCode;
 
     document.getElementById('detailImg').src = script.Thumbnail;
-    document.getElementById('detailGame').innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4m-2-2v4m8-2h.01M18 10h.01"/></svg> ${script.GameName}`;
+    document.getElementById('detailGame').innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4m-2-2v4m8-2h.01M18 10h.01"/></svg> ${script.GameName || 'Unknown Game'}`;
     document.getElementById('detailTitle').textContent = script.Title;
     document.getElementById('detailAuthor').innerHTML = `by ${script.Uploader} ${script.Verified ? `<img src="${WebStorage.SiteConfig.VerifiedBadgeUrl}" class="verified-badge" style="display:inline; vertical-align:middle; margin-left:4px;">` : ''}`;
     document.getElementById('detailDesc').textContent = script.Description;
-    document.getElementById('detailPlayBtn').href = script.GameUrl;
+    document.getElementById('detailPlayBtn').href = script.GameUrl || '#';
 
     const noteEl = document.getElementById('detailNote');
     if (script.CreatorComment) {
@@ -629,7 +635,7 @@
     document.getElementById('viewContainer').scrollTop = 0;
   }
 
-  // Iniciar
+  // Start
   applyTranslations();
   fetchDataStorage();
 </script>
