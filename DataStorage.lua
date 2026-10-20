@@ -1,4 +1,6 @@
-
+-- Happy Hub | DataStorage.lua
+-- Database consumed by caller.js. Keep the table structure intact.
+-- Tip: ScriptCode uses long-brackets [==[ ... ]==], which supports single quotes, double quotes, and multiple lines without escaping.
 
 local WebStorage = {
     SiteConfig = {
