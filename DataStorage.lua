@@ -33,11 +33,11 @@ local WebStorage = {
         Allowed = {
             "Use the hub in any supported game.",
             "Save local configurations to your executor.",
-            "Create custom scripts using our API."
+            "Create custom scripts using our API.",
         },
         NotAllowed = {
             "Selling an existing script hub that uses our API",
-            "Using our API to create fake script hubs that contain tools for account theft."
+            "Using our API to create fake script hubs that contain tools for account theft.",
         }
     }
 }
