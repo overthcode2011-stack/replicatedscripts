@@ -40,7 +40,7 @@ local WebStorage = {
             CreatorComment = "It works.",
             ScriptCode = [==[loadstring(game:HttpGet('https://raw.githubusercontent.com/overthcode2011-stack/HHB/refs/heads/main/Rivals.lua'))()]==],
             IsOfficial = true,
-            GameUrl = "https://www.roblox.com/games/142823291",
+            GameUrl = "https://www.roblox.com/games/17625359962",
             
          
             OpenSource = true,
