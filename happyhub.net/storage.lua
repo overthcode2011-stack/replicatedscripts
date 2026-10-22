@@ -6,7 +6,7 @@ local WebStorage = {
         Version = "v11.7.0",
         Theme = "OrangeDark",
         ShowVerifiedBadge = true,
-        VerifiedBadgeUrl = "https://tr.rbxcdn.com/180DAY-87e64343dde2f4088286444b269310ff/420/420/Decal/Webp/noFilter",
+        VerifiedBadgeUrl = "https://tr.rbxcdn.com/180DAY-3e194685a7be45100d9d8fed5ce79612/420/420/Decal/Webp/noFilter",
     },
 
     Scripts = {
@@ -14,13 +14,31 @@ local WebStorage = {
             Id = "1",
             GameName = "Murder Mystery 2",
             Title = "[ 🎃 ] Happy Hub by replicated man fully free",
-            Name = "Auto Farm, Auto Equip Best Ninja",
+            Name = "Happy Hub",
             Description = "Keyless · Auto Farm · Esp · fully free · xeno supported",
             Thumbnail = "https://www.rblxscripts.net/_next/image?url=https%3A%2F%2Fcdn.rblxscripts.net%2Fthumbnails%2FFfCAJLZMaS8rNX8HHQQ7zdWfCYFGaKO2_1792456751969_thumb.jpg&w=1080&q=75",
             Uploader = "replicated man",
             Verified = true,
-            CreatorComment = "Tested on latest patch. Works flawlessly.",
+            CreatorComment = "My principal script.",
             ScriptCode = [==[loadstring(game:HttpGet('https://raw.githubusercontent.com/overthcode2011-stack/HHB/refs/heads/main/main.lua'))()]==],
+            IsOfficial = true,
+            GameUrl = "https://www.roblox.com/games/142823291",
+            
+         
+            OpenSource = true,
+            MobileFriendly = true,
+        },
+        {
+            Id = "2",
+            GameName = "Rivals",
+            Title = "[UPD] Happy Hub keyless free cheats",
+            Name = "Happy Hub",
+            Description = "Keyless · Aimbot · Esp · fully free · xeno supported",
+            Thumbnail = "https://www.rblxscripts.net/_next/image?url=https%3A%2F%2Fcdn.rblxscripts.net%2Fthumbnails%2FFfCAJLZMaS8rNX8HHQQ7zdWfCYFGaKO2_1789224669490_thumb.jpg&w=1080&q=75",
+            Uploader = "replicated man",
+            Verified = true,
+            CreatorComment = "It works.",
+            ScriptCode = [==[loadstring(game:HttpGet('https://raw.githubusercontent.com/overthcode2011-stack/HHB/refs/heads/main/Rivals.lua'))()]==],
             IsOfficial = true,
             GameUrl = "https://www.roblox.com/games/142823291",
             
