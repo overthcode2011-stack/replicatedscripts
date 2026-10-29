@@ -46,6 +46,42 @@ local WebStorage = {
             OpenSource = true,
             MobileFriendly = true,
         },
+        {
+            Id = "3",
+            GameName = "[FPS] Flick",
+            Title = "[UPD] Happy Hub keyless script fully free",
+            Name = "Happy Hub",
+            Description = "Keyless · Aimbot · Esp · fully free · xeno supported",
+            Thumbnail = "https://cdn.rblxscripts.net/thumbnails/FfCAJLZMaS8rNX8HHQQ7zdWfCYFGaKO2_1793289818787_thumb.jpg",
+            Uploader = "replicated man",
+            Verified = true,
+            CreatorComment = "It works.",
+            ScriptCode = [==[loadstring(game:HttpGet('https://raw.githubusercontent.com/overthcode2011-stack/HHB/refs/heads/main/FPSFlick.lua'))()]==],
+            IsOfficial = true,
+            GameUrl = "https://www.roblox.com/games/136801880565837",
+            
+         
+            OpenSource = true,
+            MobileFriendly = true,
+        },
+        {
+            Id = "4",
+            GameName = "Prison Life",
+            Title = "[UPD] Happy Hub keyless script fully free",
+            Name = "Happy Hub",
+            Description = "Keyless · Aimbot · Esp · fully free · xeno supported",
+            Thumbnail = "https://cdn.rblxscripts.net/thumbnails/FfCAJLZMaS8rNX8HHQQ7zdWfCYFGaKO2_1793290434745_thumb.jpg",
+            Uploader = "replicated man",
+            Verified = true,
+            CreatorComment = "It works.",
+            ScriptCode = [==[loadstring(game:HttpGet('https://raw.githubusercontent.com/overthcode2011-stack/HHB/refs/heads/main/prisonlife.lua'))()]==],
+            IsOfficial = true,
+            GameUrl = "https://www.roblox.com/games/155615604",
+            
+         
+            OpenSource = true,
+            MobileFriendly = true,
+        },
     },
 
     PrivacyPolicy = {
