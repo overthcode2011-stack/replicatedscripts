@@ -37,7 +37,7 @@ local WebStorage = {
             Thumbnail = "https://www.rblxscripts.net/_next/image?url=https%3A%2F%2Fcdn.rblxscripts.net%2Fthumbnails%2FFfCAJLZMaS8rNX8HHQQ7zdWfCYFGaKO2_1789224669490_thumb.jpg&w=1080&q=75",
             Uploader = "replicated man",
             Verified = true,
-            CreatorComment = "It works.",
+            CreatorComment = "PATCHED! :(",
             ScriptCode = [==[loadstring(game:HttpGet('https://raw.githubusercontent.com/overthcode2011-stack/HHB/refs/heads/main/Rivals.lua'))()]==],
             IsOfficial = true,
             GameUrl = "https://www.roblox.com/games/17625359962",
