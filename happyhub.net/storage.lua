@@ -13,7 +13,7 @@ local WebStorage = {
         {
             Id = "1",
             GameName = "Murder Mystery 2",
-            Title = "[ 🎃 ] Happy Hub by replicated man fully free",
+            Title = "Happy Hub by replicated man fully free",
             Name = "Happy Hub",
             Description = "Keyless · Auto Farm · Esp · fully free · xeno supported",
             Thumbnail = "https://www.rblxscripts.net/_next/image?url=https%3A%2F%2Fcdn.rblxscripts.net%2Fthumbnails%2FFfCAJLZMaS8rNX8HHQQ7zdWfCYFGaKO2_1792456751969_thumb.jpg&w=1080&q=75",
@@ -69,14 +69,32 @@ local WebStorage = {
             GameName = "Prison Life",
             Title = "[UPD] Happy Hub keyless script fully free",
             Name = "Happy Hub",
-            Description = "Keyless · Aimbot · Esp · fully free · xeno supported",
+            Description = "Keyless · Aimbot · Esp · fully free · Madium supported",
             Thumbnail = "https://cdn.rblxscripts.net/thumbnails/FfCAJLZMaS8rNX8HHQQ7zdWfCYFGaKO2_1793290434745_thumb.jpg",
             Uploader = "replicated man",
             Verified = true,
-            CreatorComment = "It works.",
+            CreatorComment = "Basic.",
             ScriptCode = [==[loadstring(game:HttpGet('https://raw.githubusercontent.com/overthcode2011-stack/HHB/refs/heads/main/prisonlife.lua'))()]==],
             IsOfficial = true,
             GameUrl = "https://www.roblox.com/games/155615604",
+            
+         
+            OpenSource = true,
+            MobileFriendly = true,
+        },
+        {
+            Id = "5",
+            GameName = "MOUSE",
+            Title = "Happy Hub keyless | Horror game + Bypass Server Autorithy",
+            Name = "Happy Hub",
+            Description = "Auto-get dropped keys · Bypass · Esp · fully free · Madium supported",
+            Thumbnail = "https://cdn.rblxscripts.net/thumbnails/FfCAJLZMaS8rNX8HHQQ7zdWfCYFGaKO2_1794712996707_thumb.jpg",
+            Uploader = "replicated man",
+            Verified = true,
+            CreatorComment = "Easy to make.",
+            ScriptCode = [==[loadstring(game:HttpGet('https://raw.githubusercontent.com/overthcode2011-stack/HHB/refs/heads/main/Mouse.lua'))()]==],
+            IsOfficial = true,
+            GameUrl = "https://www.roblox.com/games/81688312343760",
             
          
             OpenSource = true,
